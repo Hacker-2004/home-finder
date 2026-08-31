@@ -1,6 +1,7 @@
 import io
 import json
 import os
+import re
 import requests
 import pandas as pd
 from datetime import datetime
@@ -15,7 +16,6 @@ MAX_PRICE = 600000
 MIN_BEDS = 3
 MIN_SQFT = 2000
 
-# Columns to exclude from homes.xlsx
 EXCLUDE_COLUMNS = [
     'SOLD DATE', 
     'NEXT OPEN HOUSE START TIME', 
@@ -26,7 +26,6 @@ EXCLUDE_COLUMNS = [
     'FAVORITE'
 ]
 
-# Cities to strictly exclude from results
 EXCLUDED_CITIES = [
     "Abington", "Ardmore", "Bala Cynwyd", "Barto", "Boyertown", "Bristol", 
     "Bryn Mawr", "Cheltenham", "Coopersburg", "Crydon", "Croydon", "D1jpdy Silverdale", 
@@ -45,7 +44,6 @@ EXCLUDED_CITIES = [
 ]
 
 def load_previous_listings():
-    """Load existing listing prices from previous run to detect price changes."""
     previous_map = {}
     if os.path.exists('listings.json'):
         try:
@@ -54,15 +52,39 @@ def load_previous_listings():
                 for item in old_data:
                     url = item.get('url') or item.get('id')
                     if url:
-                        # Store original baseline price and current recorded price
                         previous_map[url] = {
                             "price": item.get('price', 0),
                             "original_price": item.get('original_price', item.get('price', 0)),
-                            "price_change": item.get('price_change', 0)
+                            "price_change": item.get('price_change', 0),
+                            "image": item.get('image', '')
                         }
         except Exception as e:
-            print(f"Notice: Could not load previous listings for price change tracking ({e})")
+            print(f"Notice: Could not load previous listings for price/image tracking ({e})")
     return previous_map
+
+def extract_image_url(url_path, mls_num, headers, cached_img=''):
+    """Fetch property photo URL from Redfin listing meta tags or cached data."""
+    if cached_img and "placeholder" not in cached_img:
+        return cached_img
+
+    full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
+    
+    try:
+        # Quick request to extract og:image meta tag from page HTML
+        res = requests.get(full_url, headers=headers, timeout=5)
+        if res.status_code == 200:
+            match = re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', res.text)
+            if match:
+                img_url = match.group(1)
+                # Ensure HTTPS
+                if img_url.startswith("//"):
+                    img_url = "https:" + img_url
+                return img_url
+    except Exception:
+        pass
+
+    # Fallback to SVG/Placeholder if photo unavailable
+    return "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80"
 
 def fetch_active_listings():
     headers = {
@@ -109,17 +131,15 @@ def fetch_active_listings():
         price_changes_for_excel = []
         original_prices_for_excel = []
 
+        print("Fetching property photos...")
         for _, row in combined_df.iterrows():
             url_path = str(row.get(url_col_name, ''))
             full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
 
             current_price = int(row.get('PRICE', 0)) if pd.notna(row.get('PRICE')) else 0
             
-            # Detect Price Cut / Increase
             prev_info = previous_listings.get(full_url, {})
             original_price = prev_info.get("original_price", current_price)
-            
-            # Calculate difference against first seen price
             price_change = current_price - original_price
 
             price_changes_for_excel.append(price_change)
@@ -132,6 +152,11 @@ def fetch_active_listings():
             city = str(row.get('CITY', '')) if pd.notna(row.get('CITY')) else ''
             state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
             zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
+            mls_num = str(row.get('MLS#', '')) if pd.notna(row.get('MLS#')) else ''
+
+            # Fetch or retrieve cached image URL
+            cached_img = prev_info.get("image", "")
+            image_url = extract_image_url(url_path, mls_num, headers, cached_img)
 
             active_homes.append({
                 "id": full_url,
@@ -145,31 +170,27 @@ def fetch_active_listings():
                 "beds": beds,
                 "baths": baths,
                 "sqft": sqft,
+                "image": image_url,
                 "url": full_url,
                 "date_seen": datetime.now().strftime('%Y-%m-%d')
             })
 
-        # Add tracking fields to DataFrame for Excel export
         combined_df['ORIGINAL_PRICE'] = original_prices_for_excel
         combined_df['PRICE_CHANGE'] = price_changes_for_excel
 
-        # Sort Plymouth Meeting to top
         if 'CITY' in combined_df.columns:
             combined_df['IS_PLYMOUTH'] = combined_df['CITY'].astype(str).str.strip().str.upper() == 'PLYMOUTH MEETING'
             combined_df = combined_df.sort_values(by=['IS_PLYMOUTH', 'PRICE'], ascending=[False, True]).drop(columns=['IS_PLYMOUTH'])
 
-        # Drop excluded columns
         cols_to_drop = [c for c in combined_df.columns if c.strip().upper() in [x.upper() for x in EXCLUDE_COLUMNS]]
         excel_df = combined_df.drop(columns=cols_to_drop, errors='ignore')
 
-        # 1. Export Excel
         excel_df.to_excel('homes.xlsx', index=False)
 
-        # 2. Export JSON
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully processed {len(combined_df)} listings with price tracking!")
+        print(f"Successfully processed {len(combined_df)} listings with photos and price tracking!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
