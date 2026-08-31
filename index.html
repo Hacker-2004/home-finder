@@ -32,36 +32,32 @@
         grid.innerHTML = '';
 
         if (!homes || homes.length === 0) {
-          grid.innerHTML = `<div class="col-span-3 text-center bg-white p-12 rounded-xl shadow text-gray-500 font-medium">No active homes match your criteria right now. Check back tomorrow after 11:59 PM!</div>`;
+          grid.innerHTML = `<div class="col-span-3 text-center bg-white p-12 rounded-xl shadow text-gray-500 font-medium">No active homes match your exact criteria right now. Check back tonight after 11:59 PM!</div>`;
           return;
         }
 
         homes.forEach(home => {
           const card = `
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-200">
-              <img src="${home.image}" alt="${home.address}" class="w-full h-48 object-cover bg-gray-200" onerror="this.src='https://via.placeholder.com/400x250?text=No+Photo'">
-              <div class="p-5">
-                <div class="text-2xl font-bold text-green-700 mb-1">$${home.price.toLocaleString()}</div>
-                <h2 class="text-lg font-semibold text-gray-800">${home.address}</h2>
-                <p class="text-sm text-gray-500 mb-4">${home.city}, ${home.state} ${home.zip}</p>
-                
-                <div class="flex justify-between text-sm text-gray-600 border-t border-b py-2 mb-4">
-                  <span><strong>${home.beds}</strong> Beds</span>
-                  <span><strong>${home.baths}</strong> Baths</span>
-                  <span><strong>${home.sqft.toLocaleString()}</strong> SqFt</span>
-                </div>
-                
-                <a href="${home.url}" target="_blank" class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
-                  View on Redfin →
-                </a>
+            <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-blue-600 hover:shadow-xl transition duration-200">
+              <div class="text-3xl font-bold text-green-700 mb-1">$${home.price.toLocaleString()}</div>
+              <h2 class="text-xl font-semibold text-gray-800">${home.address}</h2>
+              <p class="text-sm text-gray-500 mb-4">${home.city}, ${home.state} ${home.zip}</p>
+              
+              <div class="flex justify-between text-sm text-gray-600 border-t border-b py-3 mb-4">
+                <span><strong>${home.beds}</strong> Beds</span>
+                <span><strong>${home.baths}</strong> Baths</span>
+                <span><strong>${home.sqft.toLocaleString()}</strong> SqFt</span>
               </div>
+              
+              <a href="${home.url}" target="_blank" class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
+                View Listing on Redfin →
+              </a>
             </div>
           `;
           grid.innerHTML += card;
         });
       } catch (err) {
         console.error("Failed to load listings:", err);
-        document.getElementById('grid').innerHTML = `<div class="col-span-3 text-center bg-white p-12 rounded-xl shadow text-gray-500">Initial data run pending. Run the GitHub Action or wait for 11:59 PM!</div>`;
       }
     }
 
