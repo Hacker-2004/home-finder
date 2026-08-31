@@ -8,7 +8,8 @@
 </head>
 <body class="bg-gray-100 min-h-screen p-6">
   <div class="max-w-7xl mx-auto">
-    <header class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <!-- Header -->
+    <header class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div>
         <h1 class="text-3xl font-bold text-gray-900">Active Listings Dashboard</h1>
         <p class="text-gray-600">Montgomery & Bucks County | ≤ $600k | ≥ 3 Beds | ≥ 2,000 SqFt</p>
@@ -18,47 +19,88 @@
       </div>
     </header>
 
+    <!-- Filter Controls Bar -->
+    <div class="bg-white p-4 rounded-xl shadow mb-8 flex flex-col sm:flex-row items-center gap-4">
+      <label for="cityFilter" class="font-semibold text-gray-700 whitespace-nowrap">Filter by City:</label>
+      <select id="cityFilter" onchange="filterListings()" class="w-full sm:w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 font-medium">
+        <option value="Plymouth Meeting" selected>Plymouth Meeting (Default)</option>
+        <option value="ALL">Show All Cities</option>
+      </select>
+    </div>
+
+    <!-- Listings Grid -->
     <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
   <script>
+    let allHomes = [];
+
     async function loadListings() {
       try {
         const res = await fetch('./listings.json?t=' + new Date().getTime());
-        const homes = await res.json();
+        allHomes = await res.json();
         
-        document.getElementById('count').innerText = `${homes.length} Active Homes Found`;
-        const grid = document.getElementById('grid');
-        grid.innerHTML = '';
-
-        if (!homes || homes.length === 0) {
-          grid.innerHTML = `<div class="col-span-3 text-center bg-white p-12 rounded-xl shadow text-gray-500 font-medium">No active homes match your exact criteria right now. Check back tonight after 11:59 PM!</div>`;
-          return;
-        }
-
-        homes.forEach(home => {
-          const card = `
-            <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-blue-600 hover:shadow-xl transition duration-200">
-              <div class="text-3xl font-bold text-green-700 mb-1">$${home.price.toLocaleString()}</div>
-              <h2 class="text-xl font-semibold text-gray-800">${home.address}</h2>
-              <p class="text-sm text-gray-500 mb-4">${home.city}, ${home.state} ${home.zip}</p>
-              
-              <div class="flex justify-between text-sm text-gray-600 border-t border-b py-3 mb-4">
-                <span><strong>${home.beds}</strong> Beds</span>
-                <span><strong>${home.baths}</strong> Baths</span>
-                <span><strong>${home.sqft.toLocaleString()}</strong> SqFt</span>
-              </div>
-              
-              <a href="${home.url}" target="_blank" class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
-                View Listing on Redfin →
-              </a>
-            </div>
-          `;
-          grid.innerHTML += card;
-        });
+        populateCityDropdown();
+        filterListings();
       } catch (err) {
         console.error("Failed to load listings:", err);
+        document.getElementById('grid').innerHTML = `<div class="col-span-3 text-center bg-white p-12 rounded-xl shadow text-gray-500">Initial data run pending. Check back after execution!</div>`;
       }
+    }
+
+    function populateCityDropdown() {
+      const dropdown = document.getElementById('cityFilter');
+      const cities = [...new Set(allHomes.map(h => h.city).filter(c => c && c.trim() !== ''))].sort();
+      
+      // Preserve "Plymouth Meeting" and "ALL", append all remaining cities dynamically
+      dropdown.innerHTML = `<option value="Plymouth Meeting">Plymouth Meeting</option><option value="ALL">Show All Cities</option>`;
+      
+      cities.forEach(city => {
+        if (city !== "Plymouth Meeting") {
+          dropdown.innerHTML += `<option value="${city}">${city}</option>`;
+        }
+      });
+
+      // Set default selected option to Plymouth Meeting
+      dropdown.value = "Plymouth Meeting";
+    }
+
+    function filterListings() {
+      const selectedCity = document.getElementById('cityFilter').value;
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+
+      const filteredHomes = selectedCity === 'ALL' 
+        ? allHomes 
+        : allHomes.filter(h => h.city.toLowerCase() === selectedCity.toLowerCase());
+
+      document.getElementById('count').innerText = `${filteredHomes.length} Active Home(s) Found`;
+
+      if (filteredHomes.length === 0) {
+        grid.innerHTML = `<div class="col-span-3 text-center bg-white p-12 rounded-xl shadow text-gray-500 font-medium">No active homes match your exact criteria in <strong>${selectedCity}</strong> right now.</div>`;
+        return;
+      }
+
+      filteredHomes.forEach(home => {
+        const card = `
+          <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-blue-600 hover:shadow-xl transition duration-200">
+            <div class="text-3xl font-bold text-green-700 mb-1">$${home.price.toLocaleString()}</div>
+            <h2 class="text-xl font-semibold text-gray-800">${home.address}</h2>
+            <p class="text-sm text-gray-500 mb-4">${home.city}, ${home.state} ${home.zip}</p>
+            
+            <div class="flex justify-between text-sm text-gray-600 border-t border-b py-3 mb-4">
+              <span><strong>${home.beds}</strong> Beds</span>
+              <span><strong>${home.baths}</strong> Baths</span>
+              <span><strong>${home.sqft.toLocaleString()}</strong> SqFt</span>
+            </div>
+            
+            <a href="${home.url}" target="_blank" class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
+              View Listing on Redfin →
+            </a>
+          </div>
+        `;
+        grid.innerHTML += card;
+      });
     }
 
     loadListings();
