@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PA Home Finder | Active Listings</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -15,7 +13,6 @@
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 antialiased pb-12">
 
-  <!-- Top Navigation Header -->
   <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div class="flex items-center space-x-3">
@@ -39,7 +36,7 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
     
-    <!-- Filter & Control Panel -->
+    <!-- Controls -->
     <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 mb-8 transition-all">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
@@ -49,16 +46,16 @@
             <i data-lucide="search" class="w-4 h-4"></i>
           </div>
           <input type="text" id="searchInput" oninput="filterListings()" placeholder="Search address, zip..." 
-            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
         </div>
 
-        <!-- City Filter Dropdown -->
+        <!-- City Dropdown -->
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="map-pin" class="w-4 h-4"></i>
           </div>
           <select id="cityFilter" onchange="filterListings()" 
-            class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none transition">
+            class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition">
             <option value="Plymouth Meeting" selected>Plymouth Meeting (Default)</option>
             <option value="ALL">All Included Cities</option>
           </select>
@@ -73,8 +70,9 @@
             <i data-lucide="arrow-down-up" class="w-4 h-4"></i>
           </div>
           <select id="sortSelect" onchange="filterListings()" 
-            class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none transition">
+            class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition">
             <option value="price-asc">Price: Low to High</option>
+            <option value="price-cuts">Biggest Price Cuts First</option>
             <option value="price-desc">Price: High to Low</option>
             <option value="sqft-desc">Size: Largest SqFt</option>
           </select>
@@ -111,13 +109,6 @@
         filterListings();
       } catch (err) {
         console.error("Failed to load listings:", err);
-        document.getElementById('grid').innerHTML = `
-          <div class="col-span-full text-center bg-white p-12 rounded-2xl shadow-sm border border-slate-200 text-slate-500">
-            <i data-lucide="alert-circle" class="w-10 h-10 text-slate-400 mx-auto mb-3"></i>
-            <h3 class="text-lg font-semibold text-slate-800 mb-1">No Data Available Yet</h3>
-            <p class="text-sm text-slate-500">The nightly scraper task has not populated results yet. Check back after 11:59 PM!</p>
-          </div>`;
-        lucide.createIcons();
       }
     }
 
@@ -144,12 +135,10 @@
 
       grid.innerHTML = '';
 
-      // 1. City Filter
       let filtered = selectedCity === 'ALL' 
         ? [...allHomes] 
         : allHomes.filter(h => h.city.toLowerCase() === selectedCity.toLowerCase());
 
-      // 2. Search Text Filter
       if (searchQuery) {
         filtered = filtered.filter(h => 
           h.address.toLowerCase().includes(searchQuery) ||
@@ -158,16 +147,16 @@
         );
       }
 
-      // 3. Sorting
       if (sortOption === 'price-asc') {
         filtered.sort((a, b) => a.price - b.price);
+      } else if (sortOption === 'price-cuts') {
+        filtered.sort((a, b) => (a.price_change || 0) - (b.price_change || 0));
       } else if (sortOption === 'price-desc') {
         filtered.sort((a, b) => b.price - a.price);
       } else if (sortOption === 'sqft-desc') {
         filtered.sort((a, b) => b.sqft - a.sqft);
       }
 
-      // Update badge count
       document.getElementById('count').innerHTML = `
         <span class="w-2 h-2 rounded-full bg-blue-600"></span>
         ${filtered.length} Active ${filtered.length === 1 ? 'Home' : 'Homes'}
@@ -186,21 +175,49 @@
 
       filtered.forEach(home => {
         const pricePerSqft = home.sqft > 0 ? Math.round(home.price / home.sqft) : 0;
+        const change = home.price_change || 0;
+
+        // Render Price Change Badge
+        let priceBadge = '';
+        if (change < 0) {
+          // Price Cut (Green Down Arrow)
+          const cutAmount = Math.abs(change).toLocaleString();
+          priceBadge = `
+            <div class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-lg border border-emerald-300 mb-3">
+              <i data-lucide="trending-down" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>Price Cut by $${cutAmount}</span>
+            </div>
+          `;
+        } else if (change > 0) {
+          // Price Increase (Red Up Arrow)
+          const incAmount = change.toLocaleString();
+          priceBadge = `
+            <div class="inline-flex items-center gap-1 bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-1 rounded-lg border border-rose-300 mb-3">
+              <i data-lucide="trending-up" class="w-3.5 h-3.5 text-rose-600"></i>
+              <span>Price Increased by $${incAmount}</span>
+            </div>
+          `;
+        }
 
         const card = `
           <div class="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-200/80 hover:border-blue-500/30 p-6 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1">
             <div>
-              <!-- Header Badges -->
+              ${priceBadge}
+
+              <!-- Price Row -->
               <div class="flex justify-between items-start mb-4">
-                <span class="bg-emerald-50 text-emerald-700 font-bold text-2xl tracking-tight px-3 py-1 rounded-xl border border-emerald-200/60">
-                  $${home.price.toLocaleString()}
-                </span>
+                <div>
+                  <span class="bg-slate-900 text-white font-bold text-2xl tracking-tight px-3 py-1 rounded-xl shadow-sm">
+                    $${home.price.toLocaleString()}
+                  </span>
+                  ${change < 0 ? `<span class="block text-xs text-slate-400 line-through mt-1">Was $${home.original_price.toLocaleString()}</span>` : ''}
+                </div>
                 <span class="bg-slate-100 text-slate-600 font-medium text-xs px-2.5 py-1 rounded-lg">
                   $${pricePerSqft}/sqft
                 </span>
               </div>
 
-              <!-- Address Info -->
+              <!-- Address -->
               <h2 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1">
                 ${home.address}
               </h2>
@@ -209,7 +226,7 @@
                 ${home.city}, ${home.state} ${home.zip}
               </p>
 
-              <!-- Specs Grid -->
+              <!-- Specs -->
               <div class="grid grid-cols-3 gap-2 bg-slate-50 rounded-xl p-3 border border-slate-100 text-center mb-6">
                 <div>
                   <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Beds</div>
@@ -226,7 +243,6 @@
               </div>
             </div>
 
-            <!-- Action Link -->
             <a href="${home.url}" target="_blank" 
               class="w-full bg-slate-900 hover:bg-blue-600 text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all duration-200">
               <span>View on Redfin</span>
@@ -237,7 +253,6 @@
         grid.innerHTML += card;
       });
 
-      // Initialize icons for dynamic content
       lucide.createIcons();
     }
 
