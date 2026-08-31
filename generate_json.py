@@ -1,5 +1,6 @@
 import io
 import json
+import os
 import requests
 import pandas as pd
 from datetime import datetime
@@ -43,13 +44,33 @@ EXCLUDED_CITIES = [
     "Wyndmoor", "wyndmoor", "Yardley", "yardley"
 ]
 
+def load_previous_listings():
+    """Load existing listing prices from previous run to detect price changes."""
+    previous_map = {}
+    if os.path.exists('listings.json'):
+        try:
+            with open('listings.json', 'r') as f:
+                old_data = json.load(f)
+                for item in old_data:
+                    url = item.get('url') or item.get('id')
+                    if url:
+                        # Store original baseline price and current recorded price
+                        previous_map[url] = {
+                            "price": item.get('price', 0),
+                            "original_price": item.get('original_price', item.get('price', 0)),
+                            "price_change": item.get('price_change', 0)
+                        }
+        except Exception as e:
+            print(f"Notice: Could not load previous listings for price change tracking ({e})")
+    return previous_map
+
 def fetch_active_listings():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
     }
     
+    previous_listings = load_previous_listings()
     all_dfs = []
-    # Create normalized set of excluded city names for fast lookup
     excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
 
     for county in COUNTIES:
@@ -64,7 +85,6 @@ def fetch_active_listings():
             if res.status_code == 200 and "SALE TYPE" in res.text:
                 df = pd.read_csv(io.StringIO(res.text))
                 
-                # Filter strictly for Pennsylvania listings
                 if 'STATE OR PROVINCE' in df.columns:
                     df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
                 
@@ -75,38 +95,36 @@ def fetch_active_listings():
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
         
-        # Locate URL column for deduplication
         url_col = [c for c in combined_df.columns if "URL" in c]
         url_col_name = url_col[0] if url_col else combined_df.columns[0]
         
-        # Remove duplicate rows based on listing URL
         combined_df = combined_df.drop_duplicates(subset=[url_col_name])
 
-        # Filter out listings from the EXCLUDED_CITIES list
         if 'CITY' in combined_df.columns:
             combined_df = combined_df[
                 ~combined_df['CITY'].astype(str).str.strip().str.upper().isin(excluded_cities_set)
             ]
 
-        # Sort so Plymouth Meeting homes appear at the top
-        if 'CITY' in combined_df.columns:
-            combined_df['IS_PLYMOUTH'] = combined_df['CITY'].astype(str).str.strip().str.upper() == 'PLYMOUTH MEETING'
-            combined_df = combined_df.sort_values(by=['IS_PLYMOUTH', 'PRICE'], ascending=[False, True]).drop(columns=['IS_PLYMOUTH'])
-
-        # Drop specified excluded columns for Excel
-        cols_to_drop = [c for c in combined_df.columns if c.strip().upper() in [x.upper() for x in EXCLUDE_COLUMNS]]
-        excel_df = combined_df.drop(columns=cols_to_drop, errors='ignore')
-
-        # 1. Export filtered DataFrame to homes.xlsx
-        excel_df.to_excel('homes.xlsx', index=False)
-
-        # 2. Process listings.json for the web dashboard
         active_homes = []
+        price_changes_for_excel = []
+        original_prices_for_excel = []
+
         for _, row in combined_df.iterrows():
             url_path = str(row.get(url_col_name, ''))
             full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
 
-            price = int(row.get('PRICE', 0)) if pd.notna(row.get('PRICE')) else 0
+            current_price = int(row.get('PRICE', 0)) if pd.notna(row.get('PRICE')) else 0
+            
+            # Detect Price Cut / Increase
+            prev_info = previous_listings.get(full_url, {})
+            original_price = prev_info.get("original_price", current_price)
+            
+            # Calculate difference against first seen price
+            price_change = current_price - original_price
+
+            price_changes_for_excel.append(price_change)
+            original_prices_for_excel.append(original_price)
+
             beds = int(row.get('BEDS', 0)) if pd.notna(row.get('BEDS')) else 0
             baths = float(row.get('BATHS', 0)) if pd.notna(row.get('BATHS')) else 0
             sqft = int(row.get('SQUARE FEET', 0)) if pd.notna(row.get('SQUARE FEET')) else 0
@@ -121,7 +139,9 @@ def fetch_active_listings():
                 "city": city,
                 "state": state,
                 "zip": zip_code,
-                "price": price,
+                "price": current_price,
+                "original_price": original_price,
+                "price_change": price_change,
                 "beds": beds,
                 "baths": baths,
                 "sqft": sqft,
@@ -129,10 +149,27 @@ def fetch_active_listings():
                 "date_seen": datetime.now().strftime('%Y-%m-%d')
             })
 
+        # Add tracking fields to DataFrame for Excel export
+        combined_df['ORIGINAL_PRICE'] = original_prices_for_excel
+        combined_df['PRICE_CHANGE'] = price_changes_for_excel
+
+        # Sort Plymouth Meeting to top
+        if 'CITY' in combined_df.columns:
+            combined_df['IS_PLYMOUTH'] = combined_df['CITY'].astype(str).str.strip().str.upper() == 'PLYMOUTH MEETING'
+            combined_df = combined_df.sort_values(by=['IS_PLYMOUTH', 'PRICE'], ascending=[False, True]).drop(columns=['IS_PLYMOUTH'])
+
+        # Drop excluded columns
+        cols_to_drop = [c for c in combined_df.columns if c.strip().upper() in [x.upper() for x in EXCLUDE_COLUMNS]]
+        excel_df = combined_df.drop(columns=cols_to_drop, errors='ignore')
+
+        # 1. Export Excel
+        excel_df.to_excel('homes.xlsx', index=False)
+
+        # 2. Export JSON
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully saved {len(combined_df)} listings after city exclusions!")
+        print(f"Successfully processed {len(combined_df)} listings with price tracking!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
