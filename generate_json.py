@@ -62,11 +62,16 @@ def fetch_active_listings():
         # Remove duplicate rows based on listing URL
         combined_df = combined_df.drop_duplicates(subset=[url_col_name])
 
-        # Drop the specified excluded columns
+        # Sort so Plymouth Meeting homes appear at the top of the Excel sheet
+        if 'CITY' in combined_df.columns:
+            combined_df['IS_PLYMOUTH'] = combined_df['CITY'].astype(str).str.upper() == 'PLYMOUTH MEETING'
+            combined_df = combined_df.sort_values(by=['IS_PLYMOUTH', 'PRICE'], ascending=[False, True]).drop(columns=['IS_PLYMOUTH'])
+
+        # Drop specified excluded columns
         cols_to_drop = [c for c in combined_df.columns if c.strip().upper() in [x.upper() for x in EXCLUDE_COLUMNS]]
         excel_df = combined_df.drop(columns=cols_to_drop, errors='ignore')
 
-        # 1. Export cleaned DataFrame to homes.xlsx
+        # 1. Export sorted DataFrame to homes.xlsx
         excel_df.to_excel('homes.xlsx', index=False)
 
         # 2. Process listings.json for the web dashboard
@@ -101,13 +106,11 @@ def fetch_active_listings():
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully saved {len(combined_df)} listings to homes.xlsx (filtered columns) and listings.json!")
+        print(f"Successfully saved {len(combined_df)} listings!")
     else:
-        # Save empty outputs if 0 homes match
         with open('listings.json', 'w') as f:
             json.dump([], f)
         pd.DataFrame().to_excel('homes.xlsx', index=False)
-        print("No active homes found matching criteria.")
 
 if __name__ == "__main__":
     fetch_active_listings()
