@@ -4,23 +4,33 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-# Redfin County-level Region Configs (region_type 5 = County)
+# Redfin Region IDs for Montgomery County & Bucks County, PA
 COUNTIES = [
-    {"name": "Montgomery County, PA", "id": "1996", "type": 5},
-    {"name": "Bucks County, PA", "id": "1867", "type": 5}
+    {"name": "Montgomery County, PA", "id": "2406", "type": 5},
+    {"name": "Bucks County, PA", "id": "2369", "type": 5}
 ]
 
 MAX_PRICE = 600000
 MIN_BEDS = 3
 MIN_SQFT = 2000
 
+# Columns to exclude from homes.xlsx
+EXCLUDE_COLUMNS = [
+    'SOLD DATE', 
+    'NEXT OPEN HOUSE START TIME', 
+    'NEXT OPEN HOUSE END TIME', 
+    'LATITUDE', 
+    'LONGITUDE', 
+    'INTERESTED', 
+    'FAVORITE'
+]
+
 def fetch_active_listings():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
     }
     
-    active_homes = []
-    seen_urls = set()
+    all_dfs = []
 
     for county in COUNTIES:
         url = (
@@ -34,65 +44,70 @@ def fetch_active_listings():
             if res.status_code == 200 and "SALE TYPE" in res.text:
                 df = pd.read_csv(io.StringIO(res.text))
                 
-                # Normalize column names
-                df.columns = [c.strip().upper() for c in df.columns]
+                # Filter strictly for Pennsylvania listings
+                if 'STATE OR PROVINCE' in df.columns:
+                    df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
                 
-                # Locate URL column
-                url_col = [c for c in df.columns if "URL" in c]
-                url_col_name = url_col[0] if url_col else 'URL'
-
-                for _, row in df.iterrows():
-                    state = str(row.get('STATE OR PROVINCE', '')).strip().upper()
-                    
-                    # Strictly filter for Pennsylvania listings only
-                    if state != 'PA':
-                        continue
-
-                    url_path = str(row.get(url_col_name, ''))
-                    if not url_path or url_path == 'nan':
-                        continue
-                    
-                    full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
-                    
-                    if full_url in seen_urls:
-                        continue
-                    seen_urls.add(full_url)
-
-                    price = int(row.get('PRICE', 0)) if pd.notna(row.get('PRICE')) else 0
-                    beds = int(row.get('BEDS', 0)) if pd.notna(row.get('BEDS')) else 0
-                    baths = float(row.get('BATHS', 0)) if pd.notna(row.get('BATHS')) else 0
-                    sqft = int(row.get('SQUARE FEET', 0)) if pd.notna(row.get('SQUARE FEET')) else 0
-                    address = str(row.get('ADDRESS', '')) if pd.notna(row.get('ADDRESS')) else 'Address N/A'
-                    city = str(row.get('CITY', '')) if pd.notna(row.get('CITY')) else ''
-                    zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
-
-                    active_homes.append({
-                        "id": full_url,
-                        "address": address,
-                        "city": city,
-                        "state": "PA",
-                        "zip": zip_code,
-                        "price": price,
-                        "beds": beds,
-                        "baths": baths,
-                        "sqft": sqft,
-                        "url": full_url,
-                        "date_seen": datetime.now().strftime('%Y-%m-%d')
-                    })
+                all_dfs.append(df)
         except Exception as e:
-            print(f"Error processing {county['name']}: {e}")
+            print(f"Error fetching {county['name']}: {e}")
 
-    # Save to listings.json
-    with open('listings.json', 'w') as f:
-        json.dump(active_homes, f, indent=2)
+    if all_dfs:
+        combined_df = pd.concat(all_dfs, ignore_index=True)
+        
+        # Locate URL column for deduplication
+        url_col = [c for c in combined_df.columns if "URL" in c]
+        url_col_name = url_col[0] if url_col else combined_df.columns[0]
+        
+        # Remove duplicate rows based on listing URL
+        combined_df = combined_df.drop_duplicates(subset=[url_col_name])
 
-    # Save to homes.xlsx
-    df_excel = pd.DataFrame(active_homes if active_homes else [], columns=[
-        "address", "city", "state", "zip", "price", "beds", "baths", "sqft", "url", "date_seen"
-    ])
-    df_excel.to_excel('homes.xlsx', index=False)
-    
-    print(f"Successfully updated feed: {len(active_homes)} active PA homes found.")
+        # Drop the specified excluded columns
+        cols_to_drop = [c for c in combined_df.columns if c.strip().upper() in [x.upper() for x in EXCLUDE_COLUMNS]]
+        excel_df = combined_df.drop(columns=cols_to_drop, errors='ignore')
+
+        # 1. Export cleaned DataFrame to homes.xlsx
+        excel_df.to_excel('homes.xlsx', index=False)
+
+        # 2. Process listings.json for the web dashboard
+        active_homes = []
+        for _, row in combined_df.iterrows():
+            url_path = str(row.get(url_col_name, ''))
+            full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
+
+            price = int(row.get('PRICE', 0)) if pd.notna(row.get('PRICE')) else 0
+            beds = int(row.get('BEDS', 0)) if pd.notna(row.get('BEDS')) else 0
+            baths = float(row.get('BATHS', 0)) if pd.notna(row.get('BATHS')) else 0
+            sqft = int(row.get('SQUARE FEET', 0)) if pd.notna(row.get('SQUARE FEET')) else 0
+            address = str(row.get('ADDRESS', '')) if pd.notna(row.get('ADDRESS')) else 'Address N/A'
+            city = str(row.get('CITY', '')) if pd.notna(row.get('CITY')) else ''
+            state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
+            zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
+
+            active_homes.append({
+                "id": full_url,
+                "address": address,
+                "city": city,
+                "state": state,
+                "zip": zip_code,
+                "price": price,
+                "beds": beds,
+                "baths": baths,
+                "sqft": sqft,
+                "url": full_url,
+                "date_seen": datetime.now().strftime('%Y-%m-%d')
+            })
+
+        with open('listings.json', 'w') as f:
+            json.dump(active_homes, f, indent=2)
+
+        print(f"Successfully saved {len(combined_df)} listings to homes.xlsx (filtered columns) and listings.json!")
+    else:
+        # Save empty outputs if 0 homes match
+        with open('listings.json', 'w') as f:
+            json.dump([], f)
+        pd.DataFrame().to_excel('homes.xlsx', index=False)
+        print("No active homes found matching criteria.")
 
 if __name__ == "__main__":
     fetch_active_listings()
