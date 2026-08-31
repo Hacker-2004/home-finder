@@ -25,12 +25,32 @@ EXCLUDE_COLUMNS = [
     'FAVORITE'
 ]
 
+# Cities to strictly exclude from results
+EXCLUDED_CITIES = [
+    "Abington", "Ardmore", "Bala Cynwyd", "Barto", "Boyertown", "Bristol", 
+    "Bryn Mawr", "Cheltenham", "Coopersburg", "Crydon", "Croydon", "D1jpdy Silverdale", 
+    "Silverdale", "Dresher", "Desher", "Dublin", "East Greenville", "Easton", 
+    "Elkins Park", "Erdenheim", "Fairless Hills", "Feasterville Trevose", "Feasterville", 
+    "Trevose", "Fountainville", "Furlong", "Gilbertsville", "Glenside", "Green Lane", 
+    "Hatboro", "Huntingdon Valley", "Huntington valley", "Jamison", "Jenkintown", 
+    "Kintnersville", "Lamott", "Langhorne", "Laverock", "Levittown", "Line Lexington", 
+    "Melrose Park", "Mont Clare", "Morrisville", "morrisville", "Narberth", "New Britain", 
+    "New Hope", "Newtown", "Ottsville", "Penn Wynne", "penn Wynne", "Pennsburg", 
+    "Pennsburng", "Perkasie", "Perkaise", "Perkiomenville", "Philadelphia", "Quakertown", 
+    "Red Hill", "Roslyn", "Rydal", "Sanatoga", "Schwenksville", "Sellersville", 
+    "Southampton", "Springtown", "Telford", "Trappe", "Trapper", "Warminster", 
+    "Warmister", "Warmister Township", "Warrington", "Warwick", "Wyncote", "wyncote", 
+    "Wyndmoor", "wyndmoor", "Yardley", "yardley"
+]
+
 def fetch_active_listings():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
     }
     
     all_dfs = []
+    # Create normalized set of excluded city names for fast lookup
+    excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
 
     for county in COUNTIES:
         url = (
@@ -62,16 +82,22 @@ def fetch_active_listings():
         # Remove duplicate rows based on listing URL
         combined_df = combined_df.drop_duplicates(subset=[url_col_name])
 
-        # Sort so Plymouth Meeting homes appear at the top of the Excel sheet
+        # Filter out listings from the EXCLUDED_CITIES list
         if 'CITY' in combined_df.columns:
-            combined_df['IS_PLYMOUTH'] = combined_df['CITY'].astype(str).str.upper() == 'PLYMOUTH MEETING'
+            combined_df = combined_df[
+                ~combined_df['CITY'].astype(str).str.strip().str.upper().isin(excluded_cities_set)
+            ]
+
+        # Sort so Plymouth Meeting homes appear at the top
+        if 'CITY' in combined_df.columns:
+            combined_df['IS_PLYMOUTH'] = combined_df['CITY'].astype(str).str.strip().str.upper() == 'PLYMOUTH MEETING'
             combined_df = combined_df.sort_values(by=['IS_PLYMOUTH', 'PRICE'], ascending=[False, True]).drop(columns=['IS_PLYMOUTH'])
 
-        # Drop specified excluded columns
+        # Drop specified excluded columns for Excel
         cols_to_drop = [c for c in combined_df.columns if c.strip().upper() in [x.upper() for x in EXCLUDE_COLUMNS]]
         excel_df = combined_df.drop(columns=cols_to_drop, errors='ignore')
 
-        # 1. Export sorted DataFrame to homes.xlsx
+        # 1. Export filtered DataFrame to homes.xlsx
         excel_df.to_excel('homes.xlsx', index=False)
 
         # 2. Process listings.json for the web dashboard
@@ -106,7 +132,7 @@ def fetch_active_listings():
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully saved {len(combined_df)} listings!")
+        print(f"Successfully saved {len(combined_df)} listings after city exclusions!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
