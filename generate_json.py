@@ -64,14 +64,15 @@ def fetch_active_listings():
         except Exception as e:
             print(f"Error processing region {region_id}: {e}")
 
-    # Overwrite listings.json (Auto-deletes sold homes!)
+    # Always write listings.json
     with open('listings.json', 'w') as f:
         json.dump(active_homes, f, indent=2)
 
-    # Optional local/repo Excel copy
-    if active_homes:
-        df_excel = pd.DataFrame(active_homes)
-        df_excel.to_excel('homes.xlsx', index=False)
+    # Always write homes.xlsx (creates an empty Excel sheet with headers if 0 homes found)
+    df_excel = pd.DataFrame(active_homes if active_homes else [], columns=[
+        "id", "address", "city", "state", "zip", "price", "beds", "baths", "sqft", "url", "image", "date_seen"
+    ])
+    df_excel.to_excel('homes.xlsx', index=False)
     
     print(f"Successfully updated feed: {len(active_homes)} active homes found.")
 
