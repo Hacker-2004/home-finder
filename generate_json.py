@@ -38,7 +38,7 @@ def fetch_active_listings():
                 # Clean column headers
                 df.columns = [c.strip().upper() for c in df.columns]
                 
-                # Identify exact URL column from Redfin's header
+                # Identify exact URL column dynamically from Redfin's header
                 url_col = [c for c in df.columns if "URL" in c]
                 url_col_name = url_col[0] if url_col else 'URL'
 
@@ -53,7 +53,7 @@ def fetch_active_listings():
                         continue
                     seen_urls.add(full_url)
 
-                    # Extract values cleanly with fallbacks
+                    # Extract values cleanly
                     price = int(row.get('PRICE', 0)) if pd.notna(row.get('PRICE')) else 0
                     beds = int(row.get('BEDS', 0)) if pd.notna(row.get('BEDS')) else 0
                     baths = float(row.get('BATHS', 0)) if pd.notna(row.get('BATHS')) else 0
@@ -62,9 +62,6 @@ def fetch_active_listings():
                     city = str(row.get('CITY', '')) if pd.notna(row.get('CITY')) else 'PA'
                     state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
                     zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
-                    
-                    # Generate visual card image placeholder with city & address label
-                    image_placeholder = f"https://via.placeholder.com/400x250/2563eb/ffffff?text={city.replace(' ', '+')}"
 
                     active_homes.append({
                         "id": full_url,
@@ -77,7 +74,6 @@ def fetch_active_listings():
                         "baths": baths,
                         "sqft": sqft,
                         "url": full_url,
-                        "image": image_placeholder,
                         "date_seen": datetime.now().strftime('%Y-%m-%d')
                     })
         except Exception as e:
