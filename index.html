@@ -3,34 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PA Home Finder (< $600k, 3+ Bed, >2k SqFt)</title>
+  <title>PA Home Finder | Active Listings</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen p-6">
-  <div class="max-w-7xl mx-auto">
-    <!-- Header -->
-    <header class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-      <div>
-        <h1 class="text-3xl font-bold text-gray-900">Active Listings Dashboard</h1>
-        <p class="text-gray-600">Montgomery & Bucks County | ≤ $600k | ≥ 3 Beds | ≥ 2,000 SqFt</p>
-      </div>
-      <div id="count" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg shadow">
-        Loading...
-      </div>
-    </header>
+<body class="bg-slate-50 min-h-screen text-slate-800 antialiased pb-12">
 
-    <!-- Filter Controls Bar -->
-    <div class="bg-white p-4 rounded-xl shadow mb-8 flex flex-col sm:flex-row items-center gap-4">
-      <label for="cityFilter" class="font-semibold text-gray-700 whitespace-nowrap">Filter by City:</label>
-      <select id="cityFilter" onchange="filterListings()" class="w-full sm:w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 font-medium">
-        <option value="Plymouth Meeting" selected>Plymouth Meeting (Default)</option>
-        <option value="ALL">Show All Cities</option>
-      </select>
+  <!-- Top Navigation Header -->
+  <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="bg-blue-600 p-2.5 rounded-xl text-white shadow-md shadow-blue-500/20">
+          <i data-lucide="home" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-slate-900 tracking-tight">PA Home Finder</h1>
+          <p class="text-xs text-slate-500 font-medium">Montgomery & Bucks County • ≤ $600k • ≥ 3 Beds • ≥ 2,000 SqFt</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-3">
+        <span id="count" class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-blue-200">
+          <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+          Loading listings...
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    
+    <!-- Filter & Control Panel -->
+    <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 mb-8 transition-all">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Search Input -->
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </div>
+          <input type="text" id="searchInput" oninput="filterListings()" placeholder="Search address, zip..." 
+            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+        </div>
+
+        <!-- City Filter Dropdown -->
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="map-pin" class="w-4 h-4"></i>
+          </div>
+          <select id="cityFilter" onchange="filterListings()" 
+            class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none transition">
+            <option value="Plymouth Meeting" selected>Plymouth Meeting (Default)</option>
+            <option value="ALL">All Included Cities</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </div>
+        </div>
+
+        <!-- Sort Select -->
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="arrow-down-up" class="w-4 h-4"></i>
+          </div>
+          <select id="sortSelect" onchange="filterListings()" 
+            class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none transition">
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="sqft-desc">Size: Largest SqFt</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div>
+          <button onclick="resetFilters()" 
+            class="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium text-sm rounded-xl flex items-center justify-center gap-2 transition active:scale-95">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset Filters
+          </button>
+        </div>
+
+      </div>
     </div>
 
-    <!-- Listings Grid -->
+    <!-- Active Grid -->
     <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  </div>
+
+  </main>
 
   <script>
     let allHomes = [];
@@ -44,7 +111,13 @@
         filterListings();
       } catch (err) {
         console.error("Failed to load listings:", err);
-        document.getElementById('grid').innerHTML = `<div class="col-span-3 text-center bg-white p-12 rounded-xl shadow text-gray-500">Initial data run pending. Check back after execution!</div>`;
+        document.getElementById('grid').innerHTML = `
+          <div class="col-span-full text-center bg-white p-12 rounded-2xl shadow-sm border border-slate-200 text-slate-500">
+            <i data-lucide="alert-circle" class="w-10 h-10 text-slate-400 mx-auto mb-3"></i>
+            <h3 class="text-lg font-semibold text-slate-800 mb-1">No Data Available Yet</h3>
+            <p class="text-sm text-slate-500">The nightly scraper task has not populated results yet. Check back after 11:59 PM!</p>
+          </div>`;
+        lucide.createIcons();
       }
     }
 
@@ -52,55 +125,127 @@
       const dropdown = document.getElementById('cityFilter');
       const cities = [...new Set(allHomes.map(h => h.city).filter(c => c && c.trim() !== ''))].sort();
       
-      // Preserve "Plymouth Meeting" and "ALL", append all remaining cities dynamically
-      dropdown.innerHTML = `<option value="Plymouth Meeting">Plymouth Meeting</option><option value="ALL">Show All Cities</option>`;
+      dropdown.innerHTML = `<option value="Plymouth Meeting">Plymouth Meeting</option><option value="ALL">All Included Cities</option>`;
       
       cities.forEach(city => {
-        if (city !== "Plymouth Meeting") {
+        if (city.toLowerCase() !== "plymouth meeting") {
           dropdown.innerHTML += `<option value="${city}">${city}</option>`;
         }
       });
 
-      // Set default selected option to Plymouth Meeting
       dropdown.value = "Plymouth Meeting";
     }
 
     function filterListings() {
       const selectedCity = document.getElementById('cityFilter').value;
+      const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+      const sortOption = document.getElementById('sortSelect').value;
       const grid = document.getElementById('grid');
+
       grid.innerHTML = '';
 
-      const filteredHomes = selectedCity === 'ALL' 
-        ? allHomes 
+      // 1. City Filter
+      let filtered = selectedCity === 'ALL' 
+        ? [...allHomes] 
         : allHomes.filter(h => h.city.toLowerCase() === selectedCity.toLowerCase());
 
-      document.getElementById('count').innerText = `${filteredHomes.length} Active Home(s) Found`;
+      // 2. Search Text Filter
+      if (searchQuery) {
+        filtered = filtered.filter(h => 
+          h.address.toLowerCase().includes(searchQuery) ||
+          h.city.toLowerCase().includes(searchQuery) ||
+          h.zip.toLowerCase().includes(searchQuery)
+        );
+      }
 
-      if (filteredHomes.length === 0) {
-        grid.innerHTML = `<div class="col-span-3 text-center bg-white p-12 rounded-xl shadow text-gray-500 font-medium">No active homes match your exact criteria in <strong>${selectedCity}</strong> right now.</div>`;
+      // 3. Sorting
+      if (sortOption === 'price-asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortOption === 'price-desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sortOption === 'sqft-desc') {
+        filtered.sort((a, b) => b.sqft - a.sqft);
+      }
+
+      // Update badge count
+      document.getElementById('count').innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+        ${filtered.length} Active ${filtered.length === 1 ? 'Home' : 'Homes'}
+      `;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center bg-white p-12 rounded-2xl shadow-sm border border-slate-200 text-slate-500">
+            <i data-lucide="search-x" class="w-10 h-10 text-slate-400 mx-auto mb-3"></i>
+            <h3 class="text-base font-semibold text-slate-800 mb-1">No Matching Properties</h3>
+            <p class="text-sm text-slate-500">No properties match your exact filters right now.</p>
+          </div>`;
+        lucide.createIcons();
         return;
       }
 
-      filteredHomes.forEach(home => {
+      filtered.forEach(home => {
+        const pricePerSqft = home.sqft > 0 ? Math.round(home.price / home.sqft) : 0;
+
         const card = `
-          <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-blue-600 hover:shadow-xl transition duration-200">
-            <div class="text-3xl font-bold text-green-700 mb-1">$${home.price.toLocaleString()}</div>
-            <h2 class="text-xl font-semibold text-gray-800">${home.address}</h2>
-            <p class="text-sm text-gray-500 mb-4">${home.city}, ${home.state} ${home.zip}</p>
-            
-            <div class="flex justify-between text-sm text-gray-600 border-t border-b py-3 mb-4">
-              <span><strong>${home.beds}</strong> Beds</span>
-              <span><strong>${home.baths}</strong> Baths</span>
-              <span><strong>${home.sqft.toLocaleString()}</strong> SqFt</span>
+          <div class="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-200/80 hover:border-blue-500/30 p-6 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1">
+            <div>
+              <!-- Header Badges -->
+              <div class="flex justify-between items-start mb-4">
+                <span class="bg-emerald-50 text-emerald-700 font-bold text-2xl tracking-tight px-3 py-1 rounded-xl border border-emerald-200/60">
+                  $${home.price.toLocaleString()}
+                </span>
+                <span class="bg-slate-100 text-slate-600 font-medium text-xs px-2.5 py-1 rounded-lg">
+                  $${pricePerSqft}/sqft
+                </span>
+              </div>
+
+              <!-- Address Info -->
+              <h2 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                ${home.address}
+              </h2>
+              <p class="text-sm text-slate-500 font-medium flex items-center gap-1.5 mt-1 mb-6">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i>
+                ${home.city}, ${home.state} ${home.zip}
+              </p>
+
+              <!-- Specs Grid -->
+              <div class="grid grid-cols-3 gap-2 bg-slate-50 rounded-xl p-3 border border-slate-100 text-center mb-6">
+                <div>
+                  <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Beds</div>
+                  <div class="text-slate-800 font-bold text-sm mt-0.5">${home.beds}</div>
+                </div>
+                <div class="border-x border-slate-200">
+                  <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Baths</div>
+                  <div class="text-slate-800 font-bold text-sm mt-0.5">${home.baths}</div>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">SqFt</div>
+                  <div class="text-slate-800 font-bold text-sm mt-0.5">${home.sqft.toLocaleString()}</div>
+                </div>
+              </div>
             </div>
-            
-            <a href="${home.url}" target="_blank" class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition">
-              View Listing on Redfin →
+
+            <!-- Action Link -->
+            <a href="${home.url}" target="_blank" 
+              class="w-full bg-slate-900 hover:bg-blue-600 text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all duration-200">
+              <span>View on Redfin</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
             </a>
           </div>
         `;
         grid.innerHTML += card;
       });
+
+      // Initialize icons for dynamic content
+      lucide.createIcons();
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('cityFilter').value = 'Plymouth Meeting';
+      document.getElementById('sortSelect').value = 'price-asc';
+      filterListings();
     }
 
     loadListings();
