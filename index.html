@@ -40,7 +40,7 @@
     <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 mb-8 transition-all">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        <!-- Search Input -->
+        <!-- Search -->
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="search" class="w-4 h-4"></i>
@@ -177,77 +177,78 @@
         const pricePerSqft = home.sqft > 0 ? Math.round(home.price / home.sqft) : 0;
         const change = home.price_change || 0;
 
-        // Render Price Change Badge
         let priceBadge = '';
         if (change < 0) {
-          // Price Cut (Green Down Arrow)
           const cutAmount = Math.abs(change).toLocaleString();
           priceBadge = `
-            <div class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-lg border border-emerald-300 mb-3">
-              <i data-lucide="trending-down" class="w-3.5 h-3.5 text-emerald-600"></i>
-              <span>Price Cut by $${cutAmount}</span>
-            </div>
-          `;
-        } else if (change > 0) {
-          // Price Increase (Red Up Arrow)
-          const incAmount = change.toLocaleString();
-          priceBadge = `
-            <div class="inline-flex items-center gap-1 bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-1 rounded-lg border border-rose-300 mb-3">
-              <i data-lucide="trending-up" class="w-3.5 h-3.5 text-rose-600"></i>
-              <span>Price Increased by $${incAmount}</span>
+            <div class="absolute top-3 left-3 z-10 inline-flex items-center gap-1 bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md">
+              <i data-lucide="trending-down" class="w-3.5 h-3.5"></i>
+              <span>Price Cut $${cutAmount}</span>
             </div>
           `;
         }
 
-        const card = `
-          <div class="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-200/80 hover:border-blue-500/30 p-6 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1">
-            <div>
-              ${priceBadge}
+        const fallbackImg = "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80";
 
-              <!-- Price Row -->
-              <div class="flex justify-between items-start mb-4">
-                <div>
-                  <span class="bg-slate-900 text-white font-bold text-2xl tracking-tight px-3 py-1 rounded-xl shadow-sm">
-                    $${home.price.toLocaleString()}
+        const card = `
+          <div class="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-200/80 hover:border-blue-500/30 overflow-hidden flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1">
+            <div>
+              <!-- Property Image Banner -->
+              <div class="relative h-48 w-full bg-slate-200 overflow-hidden">
+                ${priceBadge}
+                <img src="${home.image || fallbackImg}" 
+                     alt="${home.address}" 
+                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                     onerror="this.src='${fallbackImg}'">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+                
+                <div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
+                  <div>
+                    <span class="font-bold text-2xl tracking-tight drop-shadow-md">$${home.price.toLocaleString()}</span>
+                    ${change < 0 ? `<span class="block text-xs text-slate-300 line-through drop-shadow">$${home.original_price.toLocaleString()}</span>` : ''}
+                  </div>
+                  <span class="bg-black/40 backdrop-blur-md text-white font-medium text-xs px-2 py-1 rounded-md border border-white/20">
+                    $${pricePerSqft}/sqft
                   </span>
-                  ${change < 0 ? `<span class="block text-xs text-slate-400 line-through mt-1">Was $${home.original_price.toLocaleString()}</span>` : ''}
                 </div>
-                <span class="bg-slate-100 text-slate-600 font-medium text-xs px-2.5 py-1 rounded-lg">
-                  $${pricePerSqft}/sqft
-                </span>
               </div>
 
-              <!-- Address -->
-              <h2 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1">
-                ${home.address}
-              </h2>
-              <p class="text-sm text-slate-500 font-medium flex items-center gap-1.5 mt-1 mb-6">
-                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i>
-                ${home.city}, ${home.state} ${home.zip}
-              </p>
+              <!-- Content -->
+              <div class="p-5">
+                <h2 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                  ${home.address}
+                </h2>
+                <p class="text-sm text-slate-500 font-medium flex items-center gap-1.5 mt-1 mb-5">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i>
+                  ${home.city}, ${home.state} ${home.zip}
+                </p>
 
-              <!-- Specs -->
-              <div class="grid grid-cols-3 gap-2 bg-slate-50 rounded-xl p-3 border border-slate-100 text-center mb-6">
-                <div>
-                  <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Beds</div>
-                  <div class="text-slate-800 font-bold text-sm mt-0.5">${home.beds}</div>
-                </div>
-                <div class="border-x border-slate-200">
-                  <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Baths</div>
-                  <div class="text-slate-800 font-bold text-sm mt-0.5">${home.baths}</div>
-                </div>
-                <div>
-                  <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">SqFt</div>
-                  <div class="text-slate-800 font-bold text-sm mt-0.5">${home.sqft.toLocaleString()}</div>
+                <!-- Specs -->
+                <div class="grid grid-cols-3 gap-2 bg-slate-50 rounded-xl p-3 border border-slate-100 text-center mb-2">
+                  <div>
+                    <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Beds</div>
+                    <div class="text-slate-800 font-bold text-sm mt-0.5">${home.beds}</div>
+                  </div>
+                  <div class="border-x border-slate-200">
+                    <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Baths</div>
+                    <div class="text-slate-800 font-bold text-sm mt-0.5">${home.baths}</div>
+                  </div>
+                  <div>
+                    <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">SqFt</div>
+                    <div class="text-slate-800 font-bold text-sm mt-0.5">${home.sqft.toLocaleString()}</div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <a href="${home.url}" target="_blank" 
-              class="w-full bg-slate-900 hover:bg-blue-600 text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all duration-200">
-              <span>View on Redfin</span>
-              <i data-lucide="external-link" class="w-4 h-4"></i>
-            </a>
+            <!-- Action Link -->
+            <div class="p-5 pt-0">
+              <a href="${home.url}" target="_blank" 
+                class="w-full bg-slate-900 hover:bg-blue-600 text-white font-medium py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all duration-200">
+                <span>View on Redfin</span>
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+              </a>
+            </div>
           </div>
         `;
         grid.innerHTML += card;
