@@ -5,11 +5,12 @@ import re
 import requests
 import pandas as pd
 from datetime import datetime
+from homeharvest import scrape_property
 
-# Redfin Region IDs for Montgomery County & Bucks County, PA
+# Target Counties
 COUNTIES = [
-    {"name": "Montgomery County, PA", "id": "2406", "type": 5},
-    {"name": "Bucks County, PA", "id": "2369", "type": 5}
+    {"name": "Montgomery County, PA", "id": "2406", "type": 5, "search": "Montgomery County, PA"},
+    {"name": "Bucks County, PA", "id": "2369", "type": 5, "search": "Bucks County, PA"}
 ]
 
 MAX_PRICE = 600000
@@ -17,13 +18,8 @@ MIN_BEDS = 3
 MIN_SQFT = 2000
 
 EXCLUDE_COLUMNS = [
-    'SOLD DATE', 
-    'NEXT OPEN HOUSE START TIME', 
-    'NEXT OPEN HOUSE END TIME', 
-    'LATITUDE', 
-    'LONGITUDE', 
-    'INTERESTED', 
-    'FAVORITE'
+    'SOLD DATE', 'NEXT OPEN HOUSE START TIME', 'NEXT OPEN HOUSE END TIME', 
+    'LATITUDE', 'LONGITUDE', 'INTERESTED', 'FAVORITE'
 ]
 
 EXCLUDED_CITIES = [
@@ -59,31 +55,67 @@ def load_previous_listings():
                             "image": item.get('image', '')
                         }
         except Exception as e:
-            print(f"Notice: Could not load previous listings for price/image tracking ({e})")
+            print(f"Notice: Could not load previous listings ({e})")
     return previous_map
 
-def extract_image_url(url_path, mls_num, headers, cached_img=''):
-    """Fetch property photo URL from Redfin listing meta tags or cached data."""
-    if cached_img and "placeholder" not in cached_img:
+def fetch_redfin_listings(headers):
+    """Source 1: Fetch directly from Redfin CSV endpoint"""
+    all_dfs = []
+    for county in COUNTIES:
+        url = (
+            f"https://www.redfin.com/stingray/api/gis-csv?"
+            f"al=1&region_id={county['id']}&region_type={county['type']}&status=1&uipt=1,2,3,4"
+            f"&max_price={MAX_PRICE}&num_beds={MIN_BEDS}&sqft_min={MIN_SQFT}"
+        )
+        try:
+            res = requests.get(url, headers=headers, timeout=15)
+            if res.status_code == 200 and "SALE TYPE" in res.text:
+                df = pd.read_csv(io.StringIO(res.text))
+                if 'STATE OR PROVINCE' in df.columns:
+                    df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
+                df['SOURCE_SITE'] = 'Redfin'
+                all_dfs.append(df)
+        except Exception as e:
+            print(f"Error fetching Redfin for {county['name']}: {e}")
+    
+    return pd.concat(all_dfs, ignore_index=True) if all_dfs else pd.DataFrame()
+
+def fetch_realtor_listings():
+    """Source 2: Fetch directly from Realtor.com via HomeHarvest"""
+    all_dfs = []
+    for county in COUNTIES:
+        try:
+            # HomeHarvest Realtor.com Query
+            df = scrape_property(
+                location=county['search'],
+                listing_type="for_sale",
+                price_max=MAX_PRICE,
+                beds_min=MIN_BEDS,
+                sqft_min=MIN_SQFT
+            )
+            if not df.empty:
+                df['SOURCE_SITE'] = 'Realtor.com'
+                all_dfs.append(df)
+        except Exception as e:
+            print(f"Notice: HomeHarvest Realtor.com fetch for {county['name']} skipped ({e})")
+            
+    return pd.concat(all_dfs, ignore_index=True) if all_dfs else pd.DataFrame()
+
+def extract_image_url(url_path, headers, cached_img=''):
+    if cached_img and "placeholder" not in cached_img and "unsplash" not in cached_img:
         return cached_img
 
     full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
-    
     try:
-        # Quick request to extract og:image meta tag from page HTML
         res = requests.get(full_url, headers=headers, timeout=5)
         if res.status_code == 200:
             match = re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', res.text)
             if match:
                 img_url = match.group(1)
-                # Ensure HTTPS
-                if img_url.startswith("//"):
-                    img_url = "https:" + img_url
-                return img_url
+                return "https:" + img_url if img_url.startswith("//") else img_url
     except Exception:
         pass
 
-    # Fallback to SVG/Placeholder if photo unavailable
     return "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80"
 
 def fetch_active_listings():
@@ -92,36 +124,41 @@ def fetch_active_listings():
     }
     
     previous_listings = load_previous_listings()
-    all_dfs = []
     excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
 
-    for county in COUNTIES:
-        url = (
-            f"https://www.redfin.com/stingray/api/gis-csv?"
-            f"al=1&region_id={county['id']}&region_type={county['type']}&status=1&uipt=1,2,3,4"
-            f"&max_price={MAX_PRICE}&num_beds={MIN_BEDS}&sqft_min={MIN_SQFT}"
-        )
-        
-        try:
-            res = requests.get(url, headers=headers, timeout=15)
-            if res.status_code == 200 and "SALE TYPE" in res.text:
-                df = pd.read_csv(io.StringIO(res.text))
-                
-                if 'STATE OR PROVINCE' in df.columns:
-                    df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
-                
-                all_dfs.append(df)
-        except Exception as e:
-            print(f"Error fetching {county['name']}: {e}")
+    print("Fetching Redfin listings...")
+    df_redfin = fetch_redfin_listings(headers)
 
-    if all_dfs:
-        combined_df = pd.concat(all_dfs, ignore_index=True)
-        
-        url_col = [c for c in combined_df.columns if "URL" in c]
-        url_col_name = url_col[0] if url_col else combined_df.columns[0]
-        
-        combined_df = combined_df.drop_duplicates(subset=[url_col_name])
+    print("Fetching Realtor.com listings...")
+    df_realtor = fetch_realtor_listings()
 
+    # Normalize Redfin columns
+    if not df_redfin.empty:
+        url_col = [c for c in df_redfin.columns if "URL" in c]
+        url_col_name = url_col[0] if url_col else 'URL'
+        df_redfin = df_redfin.rename(columns={
+            url_col_name: 'URL',
+            'ADDRESS': 'ADDRESS',
+            'CITY': 'CITY',
+            'STATE OR PROVINCE': 'STATE',
+            'ZIP OR POSTAL CODE': 'ZIP',
+            'PRICE': 'PRICE',
+            'BEDS': 'BEDS',
+            'BATHS': 'BATHS',
+            'SQUARE FEET': 'SQFT'
+        })
+
+    # Combine sources
+    combined_df = pd.concat([df_redfin, df_realtor], ignore_index=True)
+
+    if not combined_df.empty:
+        # Standardize Address & City strings for deduplication
+        combined_df['CLEAN_ADDR'] = combined_df['ADDRESS'].astype(str).str.strip().str.upper()
+        
+        # Deduplicate across Redfin + Realtor.com based on normalized street address
+        combined_df = combined_df.drop_duplicates(subset=['CLEAN_ADDR']).drop(columns=['CLEAN_ADDR'])
+
+        # Exclude specified cities
         if 'CITY' in combined_df.columns:
             combined_df = combined_df[
                 ~combined_df['CITY'].astype(str).str.strip().str.upper().isin(excluded_cities_set)
@@ -131,10 +168,13 @@ def fetch_active_listings():
         price_changes_for_excel = []
         original_prices_for_excel = []
 
-        print("Fetching property photos...")
+        print("Processing listings, tracking price cuts, and fetching cover photos...")
         for _, row in combined_df.iterrows():
-            url_path = str(row.get(url_col_name, ''))
-            full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
+            url = str(row.get('URL', ''))
+            if not url or url == 'nan':
+                continue
+
+            full_url = url if url.startswith("http") else f"https://www.redfin.com{url}"
 
             current_price = int(row.get('PRICE', 0)) if pd.notna(row.get('PRICE')) else 0
             
@@ -147,16 +187,15 @@ def fetch_active_listings():
 
             beds = int(row.get('BEDS', 0)) if pd.notna(row.get('BEDS')) else 0
             baths = float(row.get('BATHS', 0)) if pd.notna(row.get('BATHS')) else 0
-            sqft = int(row.get('SQUARE FEET', 0)) if pd.notna(row.get('SQUARE FEET')) else 0
+            sqft = int(row.get('SQFT', 0)) if pd.notna(row.get('SQFT')) else 0
             address = str(row.get('ADDRESS', '')) if pd.notna(row.get('ADDRESS')) else 'Address N/A'
             city = str(row.get('CITY', '')) if pd.notna(row.get('CITY')) else ''
-            state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
-            zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
-            mls_num = str(row.get('MLS#', '')) if pd.notna(row.get('MLS#')) else ''
+            state = str(row.get('STATE', 'PA')) if pd.notna(row.get('STATE')) else 'PA'
+            zip_code = str(row.get('ZIP', '')) if pd.notna(row.get('ZIP')) else ''
+            source_site = str(row.get('SOURCE_SITE', 'Redfin'))
 
-            # Fetch or retrieve cached image URL
             cached_img = prev_info.get("image", "")
-            image_url = extract_image_url(url_path, mls_num, headers, cached_img)
+            image_url = extract_image_url(full_url, headers, cached_img)
 
             active_homes.append({
                 "id": full_url,
@@ -172,6 +211,7 @@ def fetch_active_listings():
                 "sqft": sqft,
                 "image": image_url,
                 "url": full_url,
+                "source": source_site,
                 "date_seen": datetime.now().strftime('%Y-%m-%d')
             })
 
@@ -190,7 +230,7 @@ def fetch_active_listings():
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully processed {len(combined_df)} listings with photos and price tracking!")
+        print(f"Successfully processed {len(combined_df)} unique listings from Redfin + Realtor.com!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
