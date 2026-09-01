@@ -96,10 +96,11 @@ def fetch_active_listings():
     excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
 
     for county in COUNTIES:
+        # Corrected API parameter from sqft_min to min_sqft
         url = (
             f"https://www.redfin.com/stingray/api/gis-csv?"
             f"al=1&region_id={county['id']}&region_type={county['type']}&status=1&uipt=1,2,3,4"
-            f"&max_price={MAX_PRICE}&num_beds={MIN_BEDS}&sqft_min={MIN_SQFT}"
+            f"&max_price={MAX_PRICE}&num_beds={MIN_BEDS}&min_sqft={MIN_SQFT}"
         )
         
         try:
@@ -107,6 +108,11 @@ def fetch_active_listings():
             if res.status_code == 200 and "SALE TYPE" in res.text:
                 df = pd.read_csv(io.StringIO(res.text))
                 
+                # Enforce strict local minimum square feet filtering
+                if 'SQUARE FEET' in df.columns:
+                    df['SQUARE FEET'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
+                    df = df[df['SQUARE FEET'] >= MIN_SQFT]
+
                 if 'STATE OR PROVINCE' in df.columns:
                     df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
                 
