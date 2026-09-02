@@ -14,7 +14,7 @@ COUNTIES = [
 
 MAX_PRICE = 600000
 MIN_BEDS = 3
-MIN_SQFT = 1800
+MIN_SQFT = 2000
 
 EXCLUDE_COLUMNS = [
     'SOLD DATE', 
@@ -63,27 +63,38 @@ def load_previous_listings():
     return previous_map
 
 def extract_image_url(url_path, mls_num, headers, cached_img=''):
-    """Fetch property photo URL from Redfin listing meta tags or cached data."""
-    if cached_img and "placeholder" not in cached_img:
+    """Fetch property photo URL from Redfin listing meta tags, CDN img tags, or cached data."""
+    if cached_img and "placeholder" not in cached_img and "unsplash" not in cached_img:
         return cached_img
 
     full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
     
     try:
-        # Quick request to extract og:image meta tag from page HTML
-        res = requests.get(full_url, headers=headers, timeout=5)
+        res = requests.get(full_url, headers=headers, timeout=8)
         if res.status_code == 200:
-            match = re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', res.text)
-            if match:
-                img_url = match.group(1)
-                # Ensure HTTPS
-                if img_url.startswith("//"):
-                    img_url = "https:" + img_url
-                return img_url
-    except Exception:
-        pass
+            html = res.text
+            
+            # 1. Try matching meta og:image tag
+            og_match = re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', html)
+            if og_match and "placeholder" not in og_match.group(1):
+                img_url = og_match.group(1)
+                return "https:" + img_url if img_url.startswith("//") else img_url
 
-    # Fallback to SVG/Placeholder if photo unavailable
+            # 2. Try matching Redfin's photo CDN patterns directly (bigphoto or mbphotov3)
+            cdn_match = re.search(r'https://ssl\.cdn-redfin\.com/photo/[^\s"\']+\.(?:jpg|jpeg|webp)', html)
+            if cdn_match:
+                return cdn_match.group(0)
+
+            # 3. Fallback search for HeroSlide image src
+            hero_match = re.search(r'class="[^"]*HeroSlide__image[^"]*"\s+alt="[^"]*"\s+src="([^"]+)"', html)
+            if hero_match:
+                img_url = hero_match.group(1)
+                return "https:" + img_url if img_url.startswith("//") else img_url
+
+    except Exception as e:
+        print(f"Error extracting photo for {full_url}: {e}")
+
+    # Fallback to default image if photo unavailable
     return "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80"
 
 def fetch_active_listings():
@@ -96,7 +107,7 @@ def fetch_active_listings():
     excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
 
     for county in COUNTIES:
-        # Corrected API parameter from sqft_min to min_sqft
+        # Corrected min_sqft and updated status=9 to include active, pending, and contingent listings
         url = (
             f"https://www.redfin.com/stingray/api/gis-csv?"
             f"al=1&region_id={county['id']}&region_type={county['type']}&status=9&uipt=1,2,3,4"
@@ -108,7 +119,7 @@ def fetch_active_listings():
             if res.status_code == 200 and "SALE TYPE" in res.text:
                 df = pd.read_csv(io.StringIO(res.text))
                 
-                # Enforce strict local minimum square feet filtering
+                # Enforce local square footage minimum
                 if 'SQUARE FEET' in df.columns:
                     df['SQUARE FEET'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
                     df = df[df['SQUARE FEET'] >= MIN_SQFT]
