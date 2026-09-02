@@ -14,7 +14,7 @@ COUNTIES = [
 
 MAX_PRICE = 600000
 MIN_BEDS = 3
-MIN_SQFT = 2000
+MIN_SQFT = 1800
 
 # High-resolution house exterior images only (no cars or placeholders)
 HOUSE_IMAGES = [
