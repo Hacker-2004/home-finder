@@ -13,7 +13,55 @@
     "sqft": 3480,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Radnor/171-Gulph-Hills-Rd-19087/home/38970453",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
+  },
+  {
+    "id": "https://www.redfin.com/PA/Norristown/31-Bristol-Ct-19403/home/39126069",
+    "address": "31 Bristol Ct",
+    "city": "Norristown",
+    "state": "PA",
+    "zip": "19403.0",
+    "price": 437900,
+    "original_price": 437900,
+    "price_change": 0,
+    "beds": 3,
+    "baths": 2.5,
+    "sqft": 2064,
+    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/Norristown/31-Bristol-Ct-19403/home/39126069",
+    "date_seen": "2026-09-02"
+  },
+  {
+    "id": "https://www.redfin.com/PA/Pottstown/809-Gabriel-Ct-19464/home/38605524",
+    "address": "809 Gabriel Ct",
+    "city": "Pottstown",
+    "state": "PA",
+    "zip": "19464.0",
+    "price": 470000,
+    "original_price": 470000,
+    "price_change": 0,
+    "beds": 3,
+    "baths": 2.5,
+    "sqft": 2201,
+    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/Pottstown/809-Gabriel-Ct-19464/home/38605524",
+    "date_seen": "2026-09-02"
+  },
+  {
+    "id": "https://www.redfin.com/PA/King-of-Prussia/322-Glenn-Rose-Cir-19406/home/39137196",
+    "address": "322 Glenn Rose Cir",
+    "city": "King Of Prussia",
+    "state": "PA",
+    "zip": "19406.0",
+    "price": 569000,
+    "original_price": 569000,
+    "price_change": 0,
+    "beds": 3,
+    "baths": 2.5,
+    "sqft": 2585,
+    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/King-of-Prussia/322-Glenn-Rose-Cir-19406/home/39137196",
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/East-Norriton/3118-Shirlene-Rd-19403/home/38332887",
@@ -29,7 +77,7 @@
     "sqft": 2145,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/East-Norriton/3118-Shirlene-Rd-19403/home/38332887",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Plymouth-Meeting/21-Jody-Dr-19462/home/38761913",
@@ -45,23 +93,7 @@
     "sqft": 2021,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Plymouth-Meeting/21-Jody-Dr-19462/home/38761913",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Ambler/1503-Seneca-Run-19002/home/38912707",
-    "address": "1503 Seneca Run",
-    "city": "Ambler",
-    "state": "PA",
-    "zip": "19002.0",
-    "price": 449000,
-    "original_price": 449000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1873,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Ambler/1503-Seneca-Run-19002/home/38912707",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Royersford/100-Beacon-Ct-19468/home/200670189",
@@ -77,7 +109,7 @@
     "sqft": 2175,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Royersford/100-Beacon-Ct-19468/home/200670189",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Collegeville/160-Lattice-Ln-19426/home/37950430",
@@ -93,7 +125,7 @@
     "sqft": 2113,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Collegeville/160-Lattice-Ln-19426/home/37950430",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Plymouth-Meeting/2996-Sheffield-Dr-19462/home/38771510",
@@ -109,7 +141,7 @@
     "sqft": 2128,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Plymouth-Meeting/2996-Sheffield-Dr-19462/home/38771510",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Eagleville/5-Abbott-Ct-19403/home/39126185",
@@ -125,23 +157,7 @@
     "sqft": 2460,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Eagleville/5-Abbott-Ct-19403/home/39126185",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Souderton/14-Cowpath-Rd-18964/home/38341820",
-    "address": "14 Cowpath Rd",
-    "city": "Souderton",
-    "state": "PA",
-    "zip": "18964.0",
-    "price": 550000,
-    "original_price": 550000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.0,
-    "sqft": 1812,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Souderton/14-Cowpath-Rd-18964/home/38341820",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Pottstown/275-Grace-St-19464/home/204716514",
@@ -157,7 +173,7 @@
     "sqft": 3222,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Pottstown/275-Grace-St-19464/home/204716514",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/King-of-Prussia/407-Lakeview-Ct-19406/unit-5-LOWER/home/182331251",
@@ -173,7 +189,7 @@
     "sqft": 2110,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/King-of-Prussia/407-Lakeview-Ct-19406/unit-5-LOWER/home/182331251",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Lansdale/178-Pinecrest-Ln-19446/home/38703417",
@@ -189,23 +205,7 @@
     "sqft": 2126,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Lansdale/178-Pinecrest-Ln-19446/home/38703417",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Harleysville/2021-Easter-Ave-19438/home/38799857",
-    "address": "2021 Easter Ave",
-    "city": "Harleysville",
-    "state": "PA",
-    "zip": "19438.0",
-    "price": 425000,
-    "original_price": 425000,
-    "price_change": 0,
-    "beds": 4,
-    "baths": 2.5,
-    "sqft": 1868,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Harleysville/2021-Easter-Ave-19438/home/38799857",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Collegeville/3901-Beth-Dr-19426/home/38626788",
@@ -221,23 +221,7 @@
     "sqft": 2166,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Collegeville/3901-Beth-Dr-19426/home/38626788",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Lansdale/1130-Hunter-Hill-Dr-19446/home/38857838",
-    "address": "1130 Hunter Hill Dr",
-    "city": "Lansdale",
-    "state": "PA",
-    "zip": "19446.0",
-    "price": 595000,
-    "original_price": 595000,
-    "price_change": 0,
-    "beds": 4,
-    "baths": 2.0,
-    "sqft": 1932,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Lansdale/1130-Hunter-Hill-Dr-19446/home/38857838",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/West-Norriton/2101-Alexander-Dr-19403/home/39080896",
@@ -253,23 +237,7 @@
     "sqft": 2288,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/West-Norriton/2101-Alexander-Dr-19403/home/39080896",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Pottstown/1156-South-St-19464/home/37966768",
-    "address": "1156 South St",
-    "city": "Pottstown",
-    "state": "PA",
-    "zip": "19464.0",
-    "price": 389900,
-    "original_price": 389900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1906,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Pottstown/1156-South-St-19464/home/37966768",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/King-of-Prussia/306-Winding-Way-19406/home/39137235",
@@ -285,7 +253,7 @@
     "sqft": 2129,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/King-of-Prussia/306-Winding-Way-19406/home/39137235",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Pottstown/1289-Meadowview-Dr-19464/home/39030041",
@@ -301,7 +269,7 @@
     "sqft": 2288,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Pottstown/1289-Meadowview-Dr-19464/home/39030041",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Pottstown/107-Hayward-St-19464/home/174658127",
@@ -317,7 +285,7 @@
     "sqft": 3623,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Pottstown/107-Hayward-St-19464/home/174658127",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/King-of-Prussia/311-Spring-Ln-19406/home/38984387",
@@ -333,23 +301,7 @@
     "sqft": 2017,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/King-of-Prussia/311-Spring-Ln-19406/home/38984387",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/King-of-Prussia/716-Springdell-Rd-19406/home/38984458",
-    "address": "716 Springdell Rd",
-    "city": "King Of Prussia",
-    "state": "PA",
-    "zip": "19406.0",
-    "price": 539900,
-    "original_price": 539900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.0,
-    "sqft": 1890,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/King-of-Prussia/716-Springdell-Rd-19406/home/38984458",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Collegeville/641-Muhlenberg-Dr-19426/home/205182960",
@@ -365,7 +317,7 @@
     "sqft": 2078,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Collegeville/641-Muhlenberg-Dr-19426/home/205182960",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Collegeville/90-E-9th-Ave-19426/home/38041907",
@@ -381,7 +333,7 @@
     "sqft": 3173,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Collegeville/90-E-9th-Ave-19426/home/38041907",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Souderton/242-Hillstone-Cir-18964/home/170666734",
@@ -397,23 +349,7 @@
     "sqft": 2180,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Souderton/242-Hillstone-Cir-18964/home/170666734",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Norristown/1879-Arbor-Place-Dr-19401/unit-65/home/203251592",
-    "address": "1879 Arbor Place Dr Lot 65",
-    "city": "Norristown",
-    "state": "PA",
-    "zip": "19401.0",
-    "price": 479900,
-    "original_price": 479900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1923,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Norristown/1879-Arbor-Place-Dr-19401/unit-65/home/203251592",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Norristown/39-Jacoby-St-19401/home/38107642",
@@ -429,7 +365,7 @@
     "sqft": 2550,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/39-Jacoby-St-19401/home/38107642",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/North-Wales/113-S-5th-St-19454/home/38124649",
@@ -445,55 +381,7 @@
     "sqft": 2000,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/North-Wales/113-S-5th-St-19454/home/38124649",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Lansdale/51-Jenkins-Ave-19446/home/38080425",
-    "address": "51 Jenkins Ave",
-    "city": "Lansdale",
-    "state": "PA",
-    "zip": "19446.0",
-    "price": 589900,
-    "original_price": 589900,
-    "price_change": 0,
-    "beds": 4,
-    "baths": 2.0,
-    "sqft": 1853,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Lansdale/51-Jenkins-Ave-19446/home/38080425",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Norristown/908-New-Hope-St-19401/home/38111955",
-    "address": "908 New Hope St",
-    "city": "Norristown",
-    "state": "PA",
-    "zip": "19401.0",
-    "price": 384900,
-    "original_price": 384900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.0,
-    "sqft": 1812,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Norristown/908-New-Hope-St-19401/home/38111955",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Harleysville/431-Windsor-Dr-19438/home/38794515",
-    "address": "431 Windsor Dr",
-    "city": "Harleysville",
-    "state": "PA",
-    "zip": "19438.0",
-    "price": 450000,
-    "original_price": 450000,
-    "price_change": 0,
-    "beds": 4,
-    "baths": 1.5,
-    "sqft": 2064,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Harleysville/431-Windsor-Dr-19438/home/38794515",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/East-Norriton/510-Sardaro-Ln-19401/home/38332746",
@@ -509,7 +397,7 @@
     "sqft": 3221,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/East-Norriton/510-Sardaro-Ln-19401/home/38332746",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Lansdale/2023-Ryans-Run-19446/home/38941395",
@@ -525,23 +413,7 @@
     "sqft": 2552,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Lansdale/2023-Ryans-Run-19446/home/38941395",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/North-Wales/106-Henning-Dr-19454/home/38690465",
-    "address": "106 Henning Dr",
-    "city": "North Wales",
-    "state": "PA",
-    "zip": "19454.0",
-    "price": 475000,
-    "original_price": 475000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1841,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/North-Wales/106-Henning-Dr-19454/home/38690465",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Pottstown/404-N-Charlotte-St-19464/home/86035387",
@@ -557,7 +429,7 @@
     "sqft": 4878,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Pottstown/404-N-Charlotte-St-19464/home/86035387",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Norristown/1105-W-Airy-St-19401/home/38094208",
@@ -573,23 +445,7 @@
     "sqft": 2203,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/1105-W-Airy-St-19401/home/38094208",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Norristown/742-Cedar-Ln-19401/home/54803085",
-    "address": "742 Cedar St",
-    "city": "Norristown",
-    "state": "PA",
-    "zip": "19401.0",
-    "price": 349000,
-    "original_price": 349000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1905,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Norristown/742-Cedar-Ln-19401/home/54803085",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Collegeville/119-Farrington-Ct-19426/home/39042101",
@@ -605,7 +461,7 @@
     "sqft": 2284,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Collegeville/119-Farrington-Ct-19426/home/39042101",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Pottstown/15-E-2nd-St-19464/home/38150733",
@@ -621,55 +477,7 @@
     "sqft": 2150,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Pottstown/15-E-2nd-St-19464/home/38150733",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/West-Norriton/1453-W-Main-St-19403/home/39078954",
-    "address": "1453 W Main St",
-    "city": "West Norriton",
-    "state": "PA",
-    "zip": "19403.0",
-    "price": 250000,
-    "original_price": 250000,
-    "price_change": 0,
-    "beds": 5,
-    "baths": 1.5,
-    "sqft": 1902,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/West-Norriton/1453-W-Main-St-19403/home/39078954",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/North-Wales/100-Susan-Cir-19454/home/40524679",
-    "address": "100 Susan Cir",
-    "city": "North Wales",
-    "state": "PA",
-    "zip": "19454.0",
-    "price": 490000,
-    "original_price": 490000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1972,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/North-Wales/100-Susan-Cir-19454/home/40524679",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Conshohocken/343-W-5th-Ave-19428/home/38045164",
-    "address": "343 W 5th Ave",
-    "city": "Conshohocken",
-    "state": "PA",
-    "zip": "19428.0",
-    "price": 575000,
-    "original_price": 575000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1998,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Conshohocken/343-W-5th-Ave-19428/home/38045164",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Collegeville/703-Evansburg-Rd-19426/home/38802205",
@@ -685,7 +493,7 @@
     "sqft": 2596,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Collegeville/703-Evansburg-Rd-19426/home/38802205",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/North-Wales/107-Sidesaddle-Way-19454/home/38704943",
@@ -701,7 +509,7 @@
     "sqft": 2046,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/North-Wales/107-Sidesaddle-Way-19454/home/38704943",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/North-Wales/625-E-Walnut-St-19454/home/38126535",
@@ -717,39 +525,7 @@
     "sqft": 2520,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/North-Wales/625-E-Walnut-St-19454/home/38126535",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Collegeville/140-Lattice-Ln-19426/home/37950420",
-    "address": "140 Lattice Ln",
-    "city": "Collegeville",
-    "state": "PA",
-    "zip": "19426.0",
-    "price": 525000,
-    "original_price": 525000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1971,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Collegeville/140-Lattice-Ln-19426/home/37950420",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Phoenixville/196-Hudson-Dr-19460/home/37980863",
-    "address": "196 Hudson Dr",
-    "city": "Phoenixville",
-    "state": "PA",
-    "zip": "19460.0",
-    "price": 495000,
-    "original_price": 495000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 3.5,
-    "sqft": 1900,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Phoenixville/196-Hudson-Dr-19460/home/37980863",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/King-of-Prussia/156-Gypsy-Ln-19406/home/38970739",
@@ -765,23 +541,7 @@
     "sqft": 2712,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/King-of-Prussia/156-Gypsy-Ln-19406/home/38970739",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Norristown/43-Hampton-Ct-19403/home/39127523",
-    "address": "43 Hampton Ct",
-    "city": "Norristown",
-    "state": "PA",
-    "zip": "19403.0",
-    "price": 422900,
-    "original_price": 422900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 2016,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Norristown/43-Hampton-Ct-19403/home/39127523",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Pottstown/282-Glendale-Ave-19464/home/39027831",
@@ -797,7 +557,7 @@
     "sqft": 2568,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Pottstown/282-Glendale-Ave-19464/home/39027831",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Colmar/401-Wynstone-Ct-18915/home/167974819",
@@ -813,39 +573,7 @@
     "sqft": 2212,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Colmar/401-Wynstone-Ct-18915/home/167974819",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Pottstown/219-Industrial-Hwy-19464/home/167956559",
-    "address": "219 Industrial Hwy",
-    "city": "Pottstown",
-    "state": "PA",
-    "zip": "19464.0",
-    "price": 315000,
-    "original_price": 315000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 3.0,
-    "sqft": 1900,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Pottstown/219-Industrial-Hwy-19464/home/167956559",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Flourtown/49-Weiss-Ave-19031/home/38841466",
-    "address": "49 Weiss Ave",
-    "city": "Flourtown",
-    "state": "PA",
-    "zip": "19031.0",
-    "price": 569000,
-    "original_price": 569000,
-    "price_change": 0,
-    "beds": 4,
-    "baths": 2.0,
-    "sqft": 2385,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Flourtown/49-Weiss-Ave-19031/home/38841466",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Norristown/721-S-Park-Ave-19403/home/38644023",
@@ -861,7 +589,7 @@
     "sqft": 2068,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/721-S-Park-Ave-19403/home/38644023",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Norristown/534-Haws-Ave-19401/home/38105368",
@@ -877,7 +605,7 @@
     "sqft": 2778,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/534-Haws-Ave-19401/home/38105368",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Royersford/104-Larrabee-Way-19468/home/178545926",
@@ -893,7 +621,7 @@
     "sqft": 3108,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Royersford/104-Larrabee-Way-19468/home/178545926",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Norristown/839-High-St-19401/home/38105662",
@@ -909,23 +637,7 @@
     "sqft": 2009,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/839-High-St-19401/home/38105662",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Pottstown/397-N-Franklin-St-19464/home/38140343",
-    "address": "397 N Franklin St",
-    "city": "Pottstown",
-    "state": "PA",
-    "zip": "19464.0",
-    "price": 360000,
-    "original_price": 360000,
-    "price_change": 0,
-    "beds": 5,
-    "baths": 2.5,
-    "sqft": 1831,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Pottstown/397-N-Franklin-St-19464/home/38140343",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/North-Wales/215-Hancock-Rd-19454/home/38935150",
@@ -941,7 +653,7 @@
     "sqft": 3256,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/North-Wales/215-Hancock-Rd-19454/home/38935150",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Audubon/733-S-Park-Ave-19403/home/38644026",
@@ -957,7 +669,7 @@
     "sqft": 2286,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Audubon/733-S-Park-Ave-19403/home/38644026",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Norristown/603-Swede-St-19401/home/49749419",
@@ -973,7 +685,7 @@
     "sqft": 3528,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/603-Swede-St-19401/home/49749419",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/King-of-Prussia/713-Whitetail-Cir-19406/home/38996472",
@@ -989,39 +701,7 @@
     "sqft": 2714,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/King-of-Prussia/713-Whitetail-Cir-19406/home/38996472",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/King-of-Prussia/243-Lawndale-Ave-19406/home/38976799",
-    "address": "243 Lawndale Ave",
-    "city": "King Of Prussia",
-    "state": "PA",
-    "zip": "19406.0",
-    "price": 550000,
-    "original_price": 550000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1920,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/King-of-Prussia/243-Lawndale-Ave-19406/home/38976799",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Harleysville/381-Manor-Cir-19438/home/37991223",
-    "address": "381 Manor Cir",
-    "city": "Harleysville",
-    "state": "PA",
-    "zip": "19438.0",
-    "price": 449900,
-    "original_price": 449900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 3.0,
-    "sqft": 1894,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Harleysville/381-Manor-Cir-19438/home/37991223",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Hatfield/1047-Chapman-Cir-19440/home/170666841",
@@ -1037,55 +717,7 @@
     "sqft": 2360,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Hatfield/1047-Chapman-Cir-19440/home/170666841",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Willow-Grove/2907-Kanes-Rd-19090/home/38224248",
-    "address": "2907 Kanes Rd",
-    "city": "Willow Grove",
-    "state": "PA",
-    "zip": "19090.0",
-    "price": 499000,
-    "original_price": 499000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 3.0,
-    "sqft": 1974,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Willow-Grove/2907-Kanes-Rd-19090/home/38224248",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Norristown/2918-7th-St-19403/home/38649435",
-    "address": "2918 7th St",
-    "city": "Norristown",
-    "state": "PA",
-    "zip": "19403.0",
-    "price": 375000,
-    "original_price": 375000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.0,
-    "sqft": 1865,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Norristown/2918-7th-St-19403/home/38649435",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Conshohocken/535-Bullock-St-19428/unit-1/home/38194844",
-    "address": "535 Bullock Ave #1",
-    "city": "Conshohocken",
-    "state": "PA",
-    "zip": "19428.0",
-    "price": 549900,
-    "original_price": 549900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1992,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Conshohocken/535-Bullock-St-19428/unit-1/home/38194844",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/North-Wales/116-Wilder-Way-19454/home/40524714",
@@ -1093,15 +725,15 @@
     "city": "North Wales",
     "state": "PA",
     "zip": "19454.0",
-    "price": 579000,
+    "price": 564000,
     "original_price": 579000,
-    "price_change": 0,
+    "price_change": -15000,
     "beds": 3,
     "baths": 2.5,
     "sqft": 2296,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/North-Wales/116-Wilder-Way-19454/home/40524714",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Norristown/521-E-Moore-St-19401/home/38111896",
@@ -1117,7 +749,7 @@
     "sqft": 2972,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/521-E-Moore-St-19401/home/38111896",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Royersford/342-Ridgewood-Dr-19468/home/174506881",
@@ -1133,55 +765,7 @@
     "sqft": 2731,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Royersford/342-Ridgewood-Dr-19468/home/174506881",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/North-Wales/224-Upper-Valley-Rd-19454/home/38946036",
-    "address": "224 Upper Valley Rd",
-    "city": "North Wales",
-    "state": "PA",
-    "zip": "19454.0",
-    "price": 599900,
-    "original_price": 599900,
-    "price_change": 0,
-    "beds": 4,
-    "baths": 2.5,
-    "sqft": 1810,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/North-Wales/224-Upper-Valley-Rd-19454/home/38946036",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Norristown/104-Farview-Ave-19403/home/38633637",
-    "address": "104 Farview Ave",
-    "city": "Norristown",
-    "state": "PA",
-    "zip": "19403.0",
-    "price": 480000,
-    "original_price": 480000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.0,
-    "sqft": 1966,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Norristown/104-Farview-Ave-19403/home/38633637",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Harleysville/129-Cobblestone-Dr-19438/unit-4-25/home/202715281",
-    "address": "129 Cobblestone Dr Unit 4-25",
-    "city": "Harleysville",
-    "state": "PA",
-    "zip": "19438.0",
-    "price": 449900,
-    "original_price": 449900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 3.0,
-    "sqft": 1883,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Harleysville/129-Cobblestone-Dr-19438/unit-4-25/home/202715281",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/North-Wales/210-Polo-Dr-19454/home/38700704",
@@ -1197,23 +781,7 @@
     "sqft": 2288,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/North-Wales/210-Polo-Dr-19454/home/38700704",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Royersford/25-Providence-Forge-Rd-19468/home/39050982",
-    "address": "25 Providence Forge Rd",
-    "city": "Royersford",
-    "state": "PA",
-    "zip": "19468.0",
-    "price": 334900,
-    "original_price": 334900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1820,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Royersford/25-Providence-Forge-Rd-19468/home/39050982",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bridgeport/207-8th-St-19405/home/38022962",
@@ -1229,39 +797,7 @@
     "sqft": 2374,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bridgeport/207-8th-St-19405/home/38022962",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Norristown/1340-Markley-St-19401/home/38109996",
-    "address": "1340 Markley St",
-    "city": "Norristown",
-    "state": "PA",
-    "zip": "19401.0",
-    "price": 424900,
-    "original_price": 424900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1939,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Norristown/1340-Markley-St-19401/home/38109996",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Norristown/1342-Markley-St-19401/home/40524749",
-    "address": "1342 Markley St",
-    "city": "Norristown",
-    "state": "PA",
-    "zip": "19401.0",
-    "price": 424900,
-    "original_price": 424900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1939,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Norristown/1342-Markley-St-19401/home/40524749",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bridgeport/549-Bush-St-19405/unit-A/home/170664427",
@@ -1277,7 +813,7 @@
     "sqft": 2204,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bridgeport/549-Bush-St-19405/unit-A/home/170664427",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Royersford/102-Beacon-CT-19468/unit-10404/home/200946737",
@@ -1293,7 +829,7 @@
     "sqft": 2541,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Royersford/102-Beacon-CT-19468/unit-10404/home/200946737",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Royersford/306-East-Sawyer-CT-19468/home/203291145",
@@ -1309,7 +845,7 @@
     "sqft": 2169,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Royersford/306-East-Sawyer-CT-19468/home/203291145",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Horsham/343-Summer-Ave-19044/home/38411682",
@@ -1325,7 +861,7 @@
     "sqft": 2016,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Horsham/343-Summer-Ave-19044/home/38411682",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Collegeville/228-Militia-Ct-19426/unit-28/home/38041938",
@@ -1341,7 +877,7 @@
     "sqft": 2006,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Collegeville/228-Militia-Ct-19426/unit-28/home/38041938",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Norristown/1228-W-Lafayette-St-19401/home/38108795",
@@ -1357,7 +893,7 @@
     "sqft": 2062,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/1228-W-Lafayette-St-19401/home/38108795",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Fort-Washington/430-Fort-Washington-Ave-19034/home/38893625",
@@ -1373,23 +909,7 @@
     "sqft": 2000,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Fort-Washington/430-Fort-Washington-Ave-19034/home/38893625",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Royersford/101-Walker-Rd-19468/home/39132339",
-    "address": "101 Walker Rd",
-    "city": "Royersford",
-    "state": "PA",
-    "zip": "19468.0",
-    "price": 475000,
-    "original_price": 475000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1849,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Royersford/101-Walker-Rd-19468/home/39132339",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bridgeport/703-Green-St-19405/home/37971740",
@@ -1405,7 +925,7 @@
     "sqft": 2324,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bridgeport/703-Green-St-19405/home/37971740",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Pottstown/644-Chestnut-St-19464/home/38135780",
@@ -1421,7 +941,7 @@
     "sqft": 2256,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Pottstown/644-Chestnut-St-19464/home/38135780",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Lansdale/326-Silo-Mill-Ln-19446/home/39128866",
@@ -1437,7 +957,7 @@
     "sqft": 3721,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Lansdale/326-Silo-Mill-Ln-19446/home/39128866",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/East-Norriton/529-Faith-Dr-19403/home/38324099",
@@ -1453,7 +973,7 @@
     "sqft": 2903,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/East-Norriton/529-Faith-Dr-19403/home/38324099",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Pottstown/265-Haven-Dr-19464/home/184543784",
@@ -1469,23 +989,7 @@
     "sqft": 2613,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Pottstown/265-Haven-Dr-19464/home/184543784",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Pottstown/1040-E-High-St-19464/home/38142767",
-    "address": "1040 E High St",
-    "city": "Pottstown",
-    "state": "PA",
-    "zip": "19464.0",
-    "price": 532000,
-    "original_price": 532000,
-    "price_change": 0,
-    "beds": 5,
-    "baths": 3.5,
-    "sqft": 3526,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Pottstown/1040-E-High-St-19464/home/38142767",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Royersford/136-Souder-Rd-19468/home/38440543",
@@ -1501,7 +1005,39 @@
     "sqft": 2181,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Royersford/136-Souder-Rd-19468/home/38440543",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
+  },
+  {
+    "id": "https://www.redfin.com/PA/Conshohocken/361-Spring-Garden-Ln-19428/home/38194968",
+    "address": "361 Spring Garden St",
+    "city": "Conshohocken",
+    "state": "PA",
+    "zip": "19428.0",
+    "price": 599900,
+    "original_price": 599900,
+    "price_change": 0,
+    "beds": 5,
+    "baths": 2.0,
+    "sqft": 2650,
+    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/Conshohocken/361-Spring-Garden-Ln-19428/home/38194968",
+    "date_seen": "2026-09-02"
+  },
+  {
+    "id": "https://www.redfin.com/PA/Bridgeport/11-Karpovich-Aly-19405/home/189083611",
+    "address": "11 Karpovich Aly",
+    "city": "Bridgeport",
+    "state": "PA",
+    "zip": "19405.0",
+    "price": 584999,
+    "original_price": 584999,
+    "price_change": 0,
+    "beds": 4,
+    "baths": 4.0,
+    "sqft": 2360,
+    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/Bridgeport/11-Karpovich-Aly-19405/home/189083611",
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/3600-Haystack-Ln-19020/home/38392169",
@@ -1517,7 +1053,7 @@
     "sqft": 2286,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/3600-Haystack-Ln-19020/home/38392169",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/98-King-St-19020/home/182784224",
@@ -1533,23 +1069,7 @@
     "sqft": 2109,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/98-King-St-19020/home/182784224",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Bensalem/3379-Bristol-Pike-19020/home/38414380",
-    "address": "3379 Bristol Pike",
-    "city": "Bensalem",
-    "state": "PA",
-    "zip": "19020.0",
-    "price": 399900,
-    "original_price": 399900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 1.0,
-    "sqft": 1953,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Bensalem/3379-Bristol-Pike-19020/home/38414380",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Chalfont/350-Glennbrook-Way-18914/home/38922820",
@@ -1565,23 +1085,7 @@
     "sqft": 2157,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Chalfont/350-Glennbrook-Way-18914/home/38922820",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Bensalem/2924-June-Ave-19020/home/38391429",
-    "address": "2924 June Ave",
-    "city": "Bensalem",
-    "state": "PA",
-    "zip": "19020.0",
-    "price": 534900,
-    "original_price": 534900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.0,
-    "sqft": 1931,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Bensalem/2924-June-Ave-19020/home/38391429",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Warminster-Township/Lot-14-Kennedy-WAY-18974/home/204686468",
@@ -1597,7 +1101,7 @@
     "sqft": 2800,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Warminster-Township/Lot-14-Kennedy-WAY-18974/home/204686468",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/6308-Militia-Ct-19020/home/38422245",
@@ -1613,23 +1117,7 @@
     "sqft": 2076,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/6308-Militia-Ct-19020/home/38422245",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Bensalem/3000-Melina-Ct-19020/home/38397238",
-    "address": "3000 Melina Ct",
-    "city": "Bensalem",
-    "state": "PA",
-    "zip": "19020.0",
-    "price": 389900,
-    "original_price": 389900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.0,
-    "sqft": 1920,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Bensalem/3000-Melina-Ct-19020/home/38397238",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Chalfont/710-Stafford-Ct-18914/home/38930255",
@@ -1645,7 +1133,7 @@
     "sqft": 2584,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Chalfont/710-Stafford-Ct-18914/home/38930255",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/1218-Primrose-Ln-19020/home/38430120",
@@ -1661,7 +1149,7 @@
     "sqft": 2588,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/1218-Primrose-Ln-19020/home/38430120",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Doylestown/4039-Holly-Way-18902/home/38553962",
@@ -1677,7 +1165,7 @@
     "sqft": 3123,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Doylestown/4039-Holly-Way-18902/home/38553962",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Doylestown/27-Addison-Ct-18901/unit-2804/home/181182548",
@@ -1693,23 +1181,7 @@
     "sqft": 2086,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Doylestown/27-Addison-Ct-18901/unit-2804/home/181182548",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Doylestown/42-Springs-Dr-18901/home/38591853",
-    "address": "42 Springs Dr",
-    "city": "Doylestown",
-    "state": "PA",
-    "zip": "18901.0",
-    "price": 565000,
-    "original_price": 565000,
-    "price_change": 0,
-    "beds": 5,
-    "baths": 2.5,
-    "sqft": 1960,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Doylestown/42-Springs-Dr-18901/home/38591853",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Doylestown/770-Almshouse-Rd-18901/home/38584673",
@@ -1725,7 +1197,7 @@
     "sqft": 2447,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Doylestown/770-Almshouse-Rd-18901/home/38584673",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/108A-Dock-St-19020/home/202473066",
@@ -1741,7 +1213,7 @@
     "sqft": 2310,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/108A-Dock-St-19020/home/202473066",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/744-Kleckner-Rd-19020/home/38417088",
@@ -1757,23 +1229,7 @@
     "sqft": 2130,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/744-Kleckner-Rd-19020/home/38417088",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Bensalem/1396-Arundel-Way-19020/home/38425581",
-    "address": "1396 Arundel Way",
-    "city": "Bensalem",
-    "state": "PA",
-    "zip": "19020.0",
-    "price": 399900,
-    "original_price": 399900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1932,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Bensalem/1396-Arundel-Way-19020/home/38425581",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Doylestown/32-Charter-Oak-Ct-18901/home/38606215",
@@ -1789,23 +1245,7 @@
     "sqft": 2024,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Doylestown/32-Charter-Oak-Ct-18901/home/38606215",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Chalfont/216-Upper-Stump-Rd-18914/home/38913664",
-    "address": "216 Upper Stump Rd",
-    "city": "Chalfont",
-    "state": "PA",
-    "zip": "18914.0",
-    "price": 549000,
-    "original_price": 549000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.0,
-    "sqft": 1992,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Chalfont/216-Upper-Stump-Rd-18914/home/38913664",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Doylestown/13-Addison-Ct-18901/home/38256575",
@@ -1821,23 +1261,7 @@
     "sqft": 2084,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Doylestown/13-Addison-Ct-18901/home/38256575",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Richboro/321-Almshouse-Rd-18954/home/38973699",
-    "address": "321 Almshouse Rd",
-    "city": "Richboro",
-    "state": "PA",
-    "zip": "18954.0",
-    "price": 539000,
-    "original_price": 539000,
-    "price_change": 0,
-    "beds": 4,
-    "baths": 2.0,
-    "sqft": 1898,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Richboro/321-Almshouse-Rd-18954/home/38973699",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Doylestown/3455-Bristol-Rd-18901/home/38582056",
@@ -1853,7 +1277,7 @@
     "sqft": 2055,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Doylestown/3455-Bristol-Rd-18901/home/38582056",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Doylestown/4040-Diane-Way-18902/home/38554347",
@@ -1869,7 +1293,7 @@
     "sqft": 2046,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Doylestown/4040-Diane-Way-18902/home/38554347",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/112-Federal-St-19020/home/69367667",
@@ -1885,7 +1309,7 @@
     "sqft": 2178,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/112-Federal-St-19020/home/69367667",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/134-Easton-St-19020/home/174252731",
@@ -1901,7 +1325,7 @@
     "sqft": 2468,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/134-Easton-St-19020/home/174252731",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/3007-Rampart-Rd-19020/home/38397038",
@@ -1917,55 +1341,7 @@
     "sqft": 2504,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/3007-Rampart-Rd-19020/home/38397038",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Bensalem/3204-Ethan-Allen-Ct-19020/home/38423946",
-    "address": "3204 Ethan Allen Ct",
-    "city": "Bensalem",
-    "state": "PA",
-    "zip": "19020.0",
-    "price": 459997,
-    "original_price": 459997,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 1.5,
-    "sqft": 1988,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Bensalem/3204-Ethan-Allen-Ct-19020/home/38423946",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Doylestown/95-Duane-Rd-18901/home/38587353",
-    "address": "95 Duane Rd",
-    "city": "Doylestown",
-    "state": "PA",
-    "zip": "18901.0",
-    "price": 524900,
-    "original_price": 524900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 1.5,
-    "sqft": 1891,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Doylestown/95-Duane-Rd-18901/home/38587353",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Bensalem/2928-Windsor-Dr-19020/home/38373879",
-    "address": "2928 Windsor Dr",
-    "city": "Bensalem",
-    "state": "PA",
-    "zip": "19020.0",
-    "price": 500000,
-    "original_price": 500000,
-    "price_change": 0,
-    "beds": 4,
-    "baths": 2.0,
-    "sqft": 1950,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Bensalem/2928-Windsor-Dr-19020/home/38373879",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Doylestown/2-W-Butler-Ave-18901/home/197786843",
@@ -1981,7 +1357,7 @@
     "sqft": 2290,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Doylestown/2-W-Butler-Ave-18901/home/197786843",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/103-Waterside-Mews-19020/home/183059915",
@@ -1997,7 +1373,7 @@
     "sqft": 2024,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/103-Waterside-Mews-19020/home/183059915",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Chalfont/152-N-Main-St-18914/home/38564500",
@@ -2013,23 +1389,7 @@
     "sqft": 2093,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Chalfont/152-N-Main-St-18914/home/38564500",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Chalfont/0002-Jameson-WAY-18914/unit-BASE-STRATFORD-INT/home/200489764",
-    "address": "0002 Jameson Way Unit BASE STRATFORD INT",
-    "city": "Chalfont",
-    "state": "PA",
-    "zip": "18914.0",
-    "price": 529990,
-    "original_price": 529990,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1953,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Chalfont/0002-Jameson-WAY-18914/unit-BASE-STRATFORD-INT/home/200489764",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Chalfont/0001-Jameson-WAY-18914/unit-BASE-WARWICK-INT/home/200489640",
@@ -2045,23 +1405,7 @@
     "sqft": 2335,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Chalfont/0001-Jameson-WAY-18914/unit-BASE-WARWICK-INT/home/200489640",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Chalfont/122-Jameson-WAY-18914/unit-8-STRATFORD-INTERIOR/home/200486793",
-    "address": "122 Jameson Way Unit 8 STRATFORD INTERIOR",
-    "city": "Chalfont",
-    "state": "PA",
-    "zip": "18914.0",
-    "price": 587990,
-    "original_price": 587990,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1953,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Chalfont/122-Jameson-WAY-18914/unit-8-STRATFORD-INTERIOR/home/200486793",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/2623-Knights-Rd-19020/home/38388577",
@@ -2077,39 +1421,7 @@
     "sqft": 3060,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/2623-Knights-Rd-19020/home/38388577",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Chalfont/54-Becker-Dr-18914/unit-25/home/190959012",
-    "address": "54 Becker Dr #25",
-    "city": "Chalfont",
-    "state": "PA",
-    "zip": "18914.0",
-    "price": 564567,
-    "original_price": 564567,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 3.5,
-    "sqft": 1984,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Chalfont/54-Becker-Dr-18914/unit-25/home/190959012",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Chalfont/48-Becker-Dr-18914/unit-22/home/190958932",
-    "address": "48 Becker Dr #22",
-    "city": "Chalfont",
-    "state": "PA",
-    "zip": "18914.0",
-    "price": 564567,
-    "original_price": 564567,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 3.5,
-    "sqft": 1984,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Chalfont/48-Becker-Dr-18914/unit-22/home/190958932",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Bensalem/1329-Rosalie-Ave-19020/home/38383670",
@@ -2125,7 +1437,7 @@
     "sqft": 2352,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Bensalem/1329-Rosalie-Ave-19020/home/38383670",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Chalfont/110-Brianna-Ct-18914/home/205163720",
@@ -2141,7 +1453,7 @@
     "sqft": 2212,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Chalfont/110-Brianna-Ct-18914/home/205163720",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Chalfont/108-Brianna-Ct-18914/home/205163660",
@@ -2157,23 +1469,7 @@
     "sqft": 2212,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Chalfont/108-Brianna-Ct-18914/home/205163660",
-    "date_seen": "2026-09-01"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Chalfont/Chalfont/Stratford/home/200417068",
-    "address": "Stratford Plan",
-    "city": "Chalfont",
-    "state": "PA",
-    "zip": "18914.0",
-    "price": 529990,
-    "original_price": 529990,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1953,
-    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Chalfont/Chalfont/Stratford/home/200417068",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   },
   {
     "id": "https://www.redfin.com/PA/Chalfont/Chalfont/Warwick/home/200417066",
@@ -2189,6 +1485,6 @@
     "sqft": 2335,
     "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Chalfont/Chalfont/Warwick/home/200417066",
-    "date_seen": "2026-09-01"
+    "date_seen": "2026-09-02"
   }
 ]
