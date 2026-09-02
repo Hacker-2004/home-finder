@@ -16,6 +16,22 @@
     "date_seen": "2026-09-02"
   },
   {
+    "id": "https://www.redfin.com/PA/North-Wales/128-Weber-Rd-19454/home/38946094",
+    "address": "128 Weber Rd",
+    "city": "North Wales",
+    "state": "PA",
+    "zip": "19454.0",
+    "price": 599900,
+    "original_price": 599900,
+    "price_change": 0,
+    "beds": 4,
+    "baths": 2.5,
+    "sqft": 1852,
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/North-Wales/128-Weber-Rd-19454/home/38946094",
+    "date_seen": "2026-09-02"
+  },
+  {
     "id": "https://www.redfin.com/PA/Norristown/31-Bristol-Ct-19403/home/39126069",
     "address": "31 Bristol Ct",
     "city": "Norristown",
@@ -29,6 +45,38 @@
     "sqft": 2064,
     "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/31-Bristol-Ct-19403/home/39126069",
+    "date_seen": "2026-09-02"
+  },
+  {
+    "id": "https://www.redfin.com/PA/Eagleville/5-Abbott-Ct-19403/home/39126185",
+    "address": "5 Abbott Ct",
+    "city": "Eagleville",
+    "state": "PA",
+    "zip": "19403.0",
+    "price": 479000,
+    "original_price": 479000,
+    "price_change": 0,
+    "beds": 3,
+    "baths": 2.5,
+    "sqft": 2460,
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/Eagleville/5-Abbott-Ct-19403/home/39126185",
+    "date_seen": "2026-09-02"
+  },
+  {
+    "id": "https://www.redfin.com/PA/Royersford/342-Ridgewood-Dr-19468/home/174506881",
+    "address": "342 Ridgewood Dr",
+    "city": "Royersford",
+    "state": "PA",
+    "zip": "19468.0",
+    "price": 589900,
+    "original_price": 589900,
+    "price_change": 0,
+    "beds": 3,
+    "baths": 2.5,
+    "sqft": 2731,
+    "image": "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/Royersford/342-Ridgewood-Dr-19468/home/174506881",
     "date_seen": "2026-09-02"
   },
   {
@@ -176,22 +224,6 @@
     "date_seen": "2026-09-02"
   },
   {
-    "id": "https://www.redfin.com/PA/Eagleville/5-Abbott-Ct-19403/home/39126185",
-    "address": "5 Abbott Ct",
-    "city": "Eagleville",
-    "state": "PA",
-    "zip": "19403.0",
-    "price": 479000,
-    "original_price": 479000,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 2460,
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Eagleville/5-Abbott-Ct-19403/home/39126185",
-    "date_seen": "2026-09-02"
-  },
-  {
     "id": "https://www.redfin.com/PA/Souderton/14-Cowpath-Rd-18964/home/38341820",
     "address": "14 Cowpath Rd",
     "city": "Souderton",
@@ -285,22 +317,6 @@
     "sqft": 2288,
     "image": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/West-Norriton/2101-Alexander-Dr-19403/home/39080896",
-    "date_seen": "2026-09-02"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Pottstown/1156-South-St-19464/home/37966768",
-    "address": "1156 South St",
-    "city": "Pottstown",
-    "state": "PA",
-    "zip": "19464.0",
-    "price": 389900,
-    "original_price": 389900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 1906,
-    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Pottstown/1156-South-St-19464/home/37966768",
     "date_seen": "2026-09-02"
   },
   {
@@ -616,7 +632,7 @@
     "price": 599000,
     "original_price": 599000,
     "price_change": 0,
-    "beds": 3,
+    "beds": 4,
     "baths": 1.5,
     "sqft": 1847,
     "image": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80",
@@ -1120,22 +1136,6 @@
     "date_seen": "2026-09-02"
   },
   {
-    "id": "https://www.redfin.com/PA/Royersford/342-Ridgewood-Dr-19468/home/174506881",
-    "address": "342 Ridgewood Dr",
-    "city": "Royersford",
-    "state": "PA",
-    "zip": "19468.0",
-    "price": 589900,
-    "original_price": 589900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 2.5,
-    "sqft": 2731,
-    "image": "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Royersford/342-Ridgewood-Dr-19468/home/174506881",
-    "date_seen": "2026-09-02"
-  },
-  {
     "id": "https://www.redfin.com/PA/North-Wales/224-Upper-Valley-Rd-19454/home/38946036",
     "address": "224 Upper Valley Rd",
     "city": "North Wales",
@@ -1165,22 +1165,6 @@
     "sqft": 1966,
     "image": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Norristown/104-Farview-Ave-19403/home/38633637",
-    "date_seen": "2026-09-02"
-  },
-  {
-    "id": "https://www.redfin.com/PA/Harleysville/129-Cobblestone-Dr-19438/unit-4-25/home/202715281",
-    "address": "129 Cobblestone Dr Unit 4-25",
-    "city": "Harleysville",
-    "state": "PA",
-    "zip": "19438.0",
-    "price": 449900,
-    "original_price": 449900,
-    "price_change": 0,
-    "beds": 3,
-    "baths": 3.0,
-    "sqft": 1883,
-    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
-    "url": "https://www.redfin.com/PA/Harleysville/129-Cobblestone-Dr-19438/unit-4-25/home/202715281",
     "date_seen": "2026-09-02"
   },
   {
@@ -2157,6 +2141,38 @@
     "sqft": 2212,
     "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
     "url": "https://www.redfin.com/PA/Chalfont/108-Brianna-Ct-18914/home/205163660",
+    "date_seen": "2026-09-02"
+  },
+  {
+    "id": "https://www.redfin.com/PA/Chalfont/Chalfont/Stratford/home/200417068",
+    "address": "Stratford Plan",
+    "city": "Chalfont",
+    "state": "PA",
+    "zip": "18914.0",
+    "price": 529990,
+    "original_price": 529990,
+    "price_change": 0,
+    "beds": 3,
+    "baths": 2.5,
+    "sqft": 1953,
+    "image": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/Chalfont/Chalfont/Stratford/home/200417068",
+    "date_seen": "2026-09-02"
+  },
+  {
+    "id": "https://www.redfin.com/PA/Chalfont/Chalfont/Warwick/home/200417066",
+    "address": "Warwick Plan",
+    "city": "Chalfont",
+    "state": "PA",
+    "zip": "18914.0",
+    "price": 549990,
+    "original_price": 549990,
+    "price_change": 0,
+    "beds": 3,
+    "baths": 2.5,
+    "sqft": 2335,
+    "image": "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=600&q=80",
+    "url": "https://www.redfin.com/PA/Chalfont/Chalfont/Warwick/home/200417066",
     "date_seen": "2026-09-02"
   }
 ]
