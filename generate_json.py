@@ -1,7 +1,7 @@
 import io
 import json
 import os
-import re
+import random
 import requests
 import pandas as pd
 from datetime import datetime
@@ -14,7 +14,17 @@ COUNTIES = [
 
 MAX_PRICE = 600000
 MIN_BEDS = 3
-MIN_SQFT = 2000
+MIN_SQFT = 1800
+
+# Curated house photo URLs to randomly assign to listings
+HOUSE_IMAGES = [
+    "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80"
+]
 
 EXCLUDE_COLUMNS = [
     'SOLD DATE', 
@@ -43,8 +53,6 @@ EXCLUDED_CITIES = [
     "Wyndmoor", "wyndmoor", "Yardley", "yardley"
 ]
 
-DEFAULT_FALLBACK = "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80"
-
 def load_previous_listings():
     previous_map = {}
     if os.path.exists('listings.json'):
@@ -61,71 +69,17 @@ def load_previous_listings():
                             "image": item.get('image', '')
                         }
         except Exception as e:
-            print(f"Notice: Could not load previous listings ({e})")
+            print(f"Notice: Could not load previous listings for price tracking ({e})")
     return previous_map
 
-def extract_image_url(url_path, mls_num, session, cached_img=''):
-    """Fetch property photo URL from Redfin listing HTML using browser emulation."""
-    # Ignore bad cache or placeholder URLs so we can attempt a fresh fetch
-    if cached_img and DEFAULT_FALLBACK not in cached_img and "unsplash" not in cached_img and "placeholder" not in cached_img:
-        return cached_img
-
-    full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
-    
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Referer': 'https://www.redfin.com/',
-        'Sec-Ch-Ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
-        'Sec-Ch-Ua-Mobile': '?0',
-        'Sec-Ch-Ua-Platform': '"Windows"',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'same-origin',
-        'Upgrade-Insecure-Requests': '1'
-    }
-
-    try:
-        res = session.get(full_url, headers=headers, timeout=10)
-        if res.status_code == 200:
-            html = res.text
-
-            # 1. Regex search for direct Redfin photo CDN URLs (bigphoto / mbphoto)
-            cdn_photos = re.findall(r'https://ssl\.cdn-redfin\.com/photo/[^\s"\']+\.(?:jpg|jpeg|webp)', html)
-            if cdn_photos:
-                # Return the first matching photo from the CDN
-                return cdn_photos[0]
-
-            # 2. Search for meta og:image tag
-            og_match = re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', html)
-            if og_match and "placeholder" not in og_match.group(1):
-                img_url = og_match.group(1)
-                return "https:" + img_url if img_url.startswith("//") else img_url
-
-            # 3. Search for HeroSlide image class tag
-            hero_match = re.search(r'class="[^"]*HeroSlide__image[^"]*"\s+alt="[^"]*"\s+src="([^"]+)"', html)
-            if hero_match:
-                img_url = hero_match.group(1)
-                return "https:" + img_url if img_url.startswith("//") else img_url
-
-    except Exception as e:
-        print(f"Error extracting photo for {full_url}: {e}")
-
-    return DEFAULT_FALLBACK
-
 def fetch_active_listings():
-    session = requests.Session()
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+    }
     
     previous_listings = load_previous_listings()
     all_dfs = []
     excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
-
-    gis_headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-        'Accept': '*/*',
-        'Referer': 'https://www.redfin.com/'
-    }
 
     for county in COUNTIES:
         url = (
@@ -135,11 +89,11 @@ def fetch_active_listings():
         )
         
         try:
-            res = session.get(url, headers=gis_headers, timeout=15)
+            res = requests.get(url, headers=headers, timeout=15)
             if res.status_code == 200 and "SALE TYPE" in res.text:
                 df = pd.read_csv(io.StringIO(res.text))
                 
-                # Enforce minimum square footage
+                # Enforce local square footage minimum
                 if 'SQUARE FEET' in df.columns:
                     df['SQUARE FEET'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
                     df = df[df['SQUARE FEET'] >= MIN_SQFT]
@@ -168,7 +122,7 @@ def fetch_active_listings():
         price_changes_for_excel = []
         original_prices_for_excel = []
 
-        print("Fetching property photos...")
+        print("Processing listings...")
         for _, row in combined_df.iterrows():
             url_path = str(row.get(url_col_name, ''))
             full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
@@ -189,11 +143,9 @@ def fetch_active_listings():
             city = str(row.get('CITY', '')) if pd.notna(row.get('CITY')) else ''
             state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
             zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
-            mls_num = str(row.get('MLS#', '')) if pd.notna(row.get('MLS#')) else ''
 
-            # Fetch or retrieve cached image URL
-            cached_img = prev_info.get("image", "")
-            image_url = extract_image_url(url_path, mls_num, session, cached_img)
+            # Maintain previous image if exists, or pick a random house image from our list
+            image_url = prev_info.get("image") or random.choice(HOUSE_IMAGES)
 
             active_homes.append({
                 "id": full_url,
@@ -227,7 +179,7 @@ def fetch_active_listings():
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully processed {len(combined_df)} listings with photos and price tracking!")
+        print(f"Successfully processed {len(combined_df)} listings!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
