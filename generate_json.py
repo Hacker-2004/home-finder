@@ -16,7 +16,7 @@ MAX_PRICE = 600000
 MIN_BEDS = 3
 MIN_SQFT = 1800
 
-# High-resolution house exterior images
+# High-resolution house exterior images only (no cars or placeholders)
 HOUSE_IMAGES = [
     "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
@@ -84,11 +84,9 @@ def fetch_active_listings():
     excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
 
     for county in COUNTIES:
-        # Added include_sash=true to pull contingent listings and expanded uipt to include all townhomes
         url = (
             f"https://www.redfin.com/stingray/api/gis-csv?"
-            f"al=1&region_id={county['id']}&region_type={county['type']}&status=9"
-            f"&include_sash=true&uipt=1,2,3,4,5,6"
+            f"al=1&region_id={county['id']}&region_type={county['type']}&status=9&uipt=1,2,3,4"
             f"&max_price={MAX_PRICE}&num_beds={MIN_BEDS}&min_sqft={MIN_SQFT}"
         )
         
@@ -148,7 +146,7 @@ def fetch_active_listings():
             state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
             zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
 
-            # Check cached image; if missing or placeholder, pick random house image
+            # Check cached image; if it's missing or a car/placeholder, replace with a random house photo
             cached_img = prev_info.get("image", "")
             if not cached_img or "photo-1568605117036" in cached_img:
                 image_url = random.choice(HOUSE_IMAGES)
@@ -187,7 +185,7 @@ def fetch_active_listings():
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully processed {len(combined_df)} listings!")
+        print(f"Successfully processed {len(combined_df)} listings with house photos!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
