@@ -14,16 +14,19 @@ COUNTIES = [
 
 MAX_PRICE = 600000
 MIN_BEDS = 3
-MIN_SQFT = 1800
+MIN_SQFT = 2000
 
-# Curated house photo URLs to randomly assign to listings
+# High-resolution house exterior images only (no cars or placeholders)
 HOUSE_IMAGES = [
     "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80"
+    "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1598228723793-52759bba239c?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80"
 ]
 
 EXCLUDE_COLUMNS = [
@@ -93,7 +96,7 @@ def fetch_active_listings():
             if res.status_code == 200 and "SALE TYPE" in res.text:
                 df = pd.read_csv(io.StringIO(res.text))
                 
-                # Enforce local square footage minimum
+                # Enforce minimum square footage
                 if 'SQUARE FEET' in df.columns:
                     df['SQUARE FEET'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
                     df = df[df['SQUARE FEET'] >= MIN_SQFT]
@@ -144,8 +147,12 @@ def fetch_active_listings():
             state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
             zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
 
-            # Maintain previous image if exists, or pick a random house image from our list
-            image_url = prev_info.get("image") or random.choice(HOUSE_IMAGES)
+            # Check cached image; if it's missing or a car/placeholder, replace with a random house photo
+            cached_img = prev_info.get("image", "")
+            if not cached_img or "photo-1568605117036" in cached_img:
+                image_url = random.choice(HOUSE_IMAGES)
+            else:
+                image_url = cached_img
 
             active_homes.append({
                 "id": full_url,
@@ -179,7 +186,7 @@ def fetch_active_listings():
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully processed {len(combined_df)} listings!")
+        print(f"Successfully processed {len(combined_df)} listings with house photos!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
