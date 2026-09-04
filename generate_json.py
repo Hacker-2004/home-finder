@@ -16,7 +16,7 @@ MAX_PRICE = 600000
 MIN_BEDS = 3
 MIN_SQFT = 1800
 
-# High-resolution house exterior images only (no cars or placeholders)
+# High-resolution house exterior images
 HOUSE_IMAGES = [
     "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
@@ -68,7 +68,8 @@ def load_previous_listings():
                             "price": item.get('price', 0),
                             "original_price": item.get('original_price', item.get('price', 0)),
                             "price_change": item.get('price_change', 0),
-                            "image": item.get('image', '')
+                            "image": item.get('image', ''),
+                            "first_seen": item.get('first_seen', item.get('date_seen', datetime.now().strftime('%Y-%m-%d')))
                         }
         except Exception as e:
             print(f"Notice: Could not load previous listings for price tracking ({e})")
@@ -82,11 +83,13 @@ def fetch_active_listings():
     previous_listings = load_previous_listings()
     all_dfs = []
     excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
+    today_str = datetime.now().strftime('%Y-%m-%d')
 
     for county in COUNTIES:
         url = (
             f"https://www.redfin.com/stingray/api/gis-csv?"
-            f"al=1&region_id={county['id']}&region_type={county['type']}&status=9&uipt=1,2,3,4"
+            f"al=1&region_id={county['id']}&region_type={county['type']}"
+            f"&status=1&include_sash=true&uipt=1,2,3,4,5,6"
             f"&max_price={MAX_PRICE}&num_beds={MIN_BEDS}&min_sqft={MIN_SQFT}"
         )
         
@@ -95,7 +98,6 @@ def fetch_active_listings():
             if res.status_code == 200 and "SALE TYPE" in res.text:
                 df = pd.read_csv(io.StringIO(res.text))
                 
-                # Enforce minimum square footage
                 if 'SQUARE FEET' in df.columns:
                     df['SQUARE FEET'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
                     df = df[df['SQUARE FEET'] >= MIN_SQFT]
@@ -134,6 +136,9 @@ def fetch_active_listings():
             prev_info = previous_listings.get(full_url, {})
             original_price = prev_info.get("original_price", current_price)
             price_change = current_price - original_price
+            
+            # Preserve the original date when this listing was first discovered
+            first_seen = prev_info.get("first_seen", today_str)
 
             price_changes_for_excel.append(price_change)
             original_prices_for_excel.append(original_price)
@@ -146,7 +151,6 @@ def fetch_active_listings():
             state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
             zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
 
-            # Check cached image; if it's missing or a car/placeholder, replace with a random house photo
             cached_img = prev_info.get("image", "")
             if not cached_img or "photo-1568605117036" in cached_img:
                 image_url = random.choice(HOUSE_IMAGES)
@@ -167,7 +171,8 @@ def fetch_active_listings():
                 "sqft": sqft,
                 "image": image_url,
                 "url": full_url,
-                "date_seen": datetime.now().strftime('%Y-%m-%d')
+                "date_seen": today_str,
+                "first_seen": first_seen
             })
 
         combined_df['ORIGINAL_PRICE'] = original_prices_for_excel
@@ -185,7 +190,7 @@ def fetch_active_listings():
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully processed {len(combined_df)} listings with house photos!")
+        print(f"Successfully processed {len(combined_df)} listings!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
