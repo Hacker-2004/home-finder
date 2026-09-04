@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PA Home Finder | Active Listings</title>
+  <title>PA Home Finder | Active & Pending Listings</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -21,7 +21,7 @@
         </div>
         <div>
           <h1 class="text-xl font-bold text-slate-900 tracking-tight">PA Home Finder</h1>
-          <p class="text-xs text-slate-500 font-medium">Montgomery & Bucks County • ≤ $600k • ≥ 3 Beds • ≥ 2,000 SqFt</p>
+          <p class="text-xs text-slate-500 font-medium">Montgomery & Bucks County • ≤ $600k • ≥ 3 Beds • ≥ 1,800 SqFt</p>
         </div>
       </div>
       
@@ -127,6 +127,15 @@
       dropdown.value = "Plymouth Meeting";
     }
 
+    function isNewListing(firstSeenDate) {
+      if (!firstSeenDate) return false;
+      const firstSeen = new Date(firstSeenDate);
+      const today = new Date();
+      const diffTime = Math.abs(today - firstSeen);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays <= 10;
+    }
+
     function filterListings() {
       const selectedCity = document.getElementById('cityFilter').value;
       const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -159,7 +168,7 @@
 
       document.getElementById('count').innerHTML = `
         <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-        ${filtered.length} Active ${filtered.length === 1 ? 'Home' : 'Homes'}
+        ${filtered.length} ${filtered.length === 1 ? 'Home' : 'Homes'}
       `;
 
       if (filtered.length === 0) {
@@ -188,7 +197,19 @@
           `;
         }
 
-        const fallbackImg = "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80";
+        // Check if listing was discovered within 10 days
+        let newBadge = '';
+        const seenDate = home.first_seen || home.date_seen;
+        if (isNewListing(seenDate)) {
+          newBadge = `
+            <div class="absolute top-3 right-3 z-10 inline-flex items-center gap-1 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              <span>New</span>
+            </div>
+          `;
+        }
+
+        const fallbackImg = "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=80";
 
         const card = `
           <div class="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-200/80 hover:border-blue-500/30 overflow-hidden flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1">
@@ -196,6 +217,7 @@
               <!-- Property Image Banner -->
               <div class="relative h-48 w-full bg-slate-200 overflow-hidden">
                 ${priceBadge}
+                ${newBadge}
                 <img src="${home.image || fallbackImg}" 
                      alt="${home.address}" 
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
