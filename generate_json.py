@@ -16,16 +16,12 @@ MAX_PRICE = 600000
 MIN_BEDS = 3
 MIN_SQFT = 1500
 
-# High-resolution house exterior images
 HOUSE_IMAGES = [
     "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1598228723793-52759bba239c?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80"
+    "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80"
 ]
 
 EXCLUDE_COLUMNS = [
@@ -71,12 +67,12 @@ def load_previous_listings():
                             "image": item.get('image', '')
                         }
         except Exception as e:
-            print(f"Notice: Could not load previous listings for price tracking ({e})")
+            print(f"Notice: Could not load previous listings ({e})")
     return previous_map
 
 def fetch_active_listings():
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
     }
     
     previous_listings = load_previous_listings()
@@ -88,7 +84,7 @@ def fetch_active_listings():
         url = (
             f"https://www.redfin.com/stingray/api/gis-csv?"
             f"al=1&region_id={county['id']}&region_type={county['type']}"
-            f"&status=1&include_sash=true&uipt=1,2,3,4,5,6"
+            f"&status=1,9,8192&include_sash=true&uipt=1,2,3,4,5,6"
             f"&max_price={MAX_PRICE}&num_beds={MIN_BEDS}&min_sqft={MIN_SQFT}"
         )
         
@@ -98,8 +94,8 @@ def fetch_active_listings():
                 df = pd.read_csv(io.StringIO(res.text))
                 
                 if 'SQUARE FEET' in df.columns:
-                    df['SQUARE FEET'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
-                    df = df[df['SQUARE FEET'] >= MIN_SQFT]
+                    df['SQFT_NUM'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
+                    df = df[(df['SQFT_NUM'] >= MIN_SQFT) | (df['SQFT_NUM'] == 0)]
 
                 if 'STATE OR PROVINCE' in df.columns:
                     df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
@@ -147,8 +143,10 @@ def fetch_active_listings():
             state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
             zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
             
-            # Extract real Redfin Days on Market value
             dom = int(row.get('DAYS ON MARKET', 999)) if pd.notna(row.get('DAYS ON MARKET')) else 999
+            
+            # Extract listing status/sale type (e.g., Pending, Contingent, Coming Soon)
+            raw_sale_type = str(row.get('SALE TYPE', 'Active Listing')).strip()
 
             cached_img = prev_info.get("image", "")
             if not cached_img or "photo-1568605117036" in cached_img:
@@ -169,6 +167,7 @@ def fetch_active_listings():
                 "baths": baths,
                 "sqft": sqft,
                 "days_on_market": dom,
+                "status": raw_sale_type,
                 "image": image_url,
                 "url": full_url,
                 "date_seen": today_str
