@@ -127,15 +127,6 @@
       dropdown.value = "Plymouth Meeting";
     }
 
-    function isNewListing(firstSeenDate) {
-      if (!firstSeenDate) return false;
-      const firstSeen = new Date(firstSeenDate);
-      const today = new Date();
-      const diffTime = Math.abs(today - firstSeen);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays <= 10;
-    }
-
     function filterListings() {
       const selectedCity = document.getElementById('cityFilter').value;
       const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -197,10 +188,9 @@
           `;
         }
 
-        // Check if listing was discovered within 10 days
+        // Show "NEW" badge only if Days on Market is 10 days or fewer
         let newBadge = '';
-        const seenDate = home.first_seen || home.date_seen;
-        if (isNewListing(seenDate)) {
+        if (home.days_on_market !== undefined && home.days_on_market <= 10) {
           newBadge = `
             <div class="absolute top-3 right-3 z-10 inline-flex items-center gap-1 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
               <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
