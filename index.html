@@ -21,7 +21,7 @@
         </div>
         <div>
           <h1 class="text-xl font-bold text-slate-900 tracking-tight">PA Home Finder</h1>
-          <p class="text-xs text-slate-500 font-medium">Montgomery & Bucks County • ≤ $600k • ≥ 3 Beds • ≥ 1,800 SqFt</p>
+          <p class="text-xs text-slate-500 font-medium">Montgomery & Bucks County • ≤ $600k • ≥ 3 Beds • ≥ 1,500 SqFt</p>
         </div>
       </div>
       
@@ -188,10 +188,33 @@
           `;
         }
 
-        // Show "NEW" badge only if Days on Market is 10 days or fewer
-        let newBadge = '';
-        if (home.days_on_market !== undefined && home.days_on_market <= 10) {
-          newBadge = `
+        // Status Badge Logic (Pending, Contingent, Coming Soon, New)
+        let statusBadge = '';
+        const statusText = (home.status || '').toLowerCase();
+
+        if (statusText.includes('pending')) {
+          statusBadge = `
+            <div class="absolute top-3 right-3 z-10 inline-flex items-center gap-1 bg-amber-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
+              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+              <span>Pending</span>
+            </div>
+          `;
+        } else if (statusText.includes('contingent')) {
+          statusBadge = `
+            <div class="absolute top-3 right-3 z-10 inline-flex items-center gap-1 bg-purple-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
+              <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
+              <span>Contingent</span>
+            </div>
+          `;
+        } else if (statusText.includes('coming soon')) {
+          statusBadge = `
+            <div class="absolute top-3 right-3 z-10 inline-flex items-center gap-1 bg-indigo-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
+              <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+              <span>Coming Soon</span>
+            </div>
+          `;
+        } else if (home.days_on_market !== undefined && home.days_on_market <= 10) {
+          statusBadge = `
             <div class="absolute top-3 right-3 z-10 inline-flex items-center gap-1 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
               <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
               <span>New</span>
@@ -207,7 +230,7 @@
               <!-- Property Image Banner -->
               <div class="relative h-48 w-full bg-slate-200 overflow-hidden">
                 ${priceBadge}
-                ${newBadge}
+                ${statusBadge}
                 <img src="${home.image || fallbackImg}" 
                      alt="${home.address}" 
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
