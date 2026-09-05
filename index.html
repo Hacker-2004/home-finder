@@ -36,11 +36,11 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
     
-    <!-- Controls -->
+    <!-- Controls Bar -->
     <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 mb-8 transition-all">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         
-        <!-- Search -->
+        <!-- Search Input -->
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="search" class="w-4 h-4"></i>
@@ -49,7 +49,7 @@
             class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
         </div>
 
-        <!-- City Dropdown -->
+        <!-- City Filter Dropdown -->
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="map-pin" class="w-4 h-4"></i>
@@ -58,6 +58,24 @@
             class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition">
             <option value="Plymouth Meeting" selected>Plymouth Meeting (Default)</option>
             <option value="ALL">All Included Cities</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </div>
+        </div>
+
+        <!-- Status Filter Dropdown -->
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="tag" class="w-4 h-4"></i>
+          </div>
+          <select id="statusFilter" onchange="filterListings()" 
+            class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition">
+            <option value="ALL" selected>All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="Contingent">Contingent</option>
+            <option value="Pre-Market">Pre-Market / Coming Soon</option>
           </select>
           <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="chevron-down" class="w-4 h-4"></i>
@@ -129,16 +147,24 @@
 
     function filterListings() {
       const selectedCity = document.getElementById('cityFilter').value;
+      const selectedStatus = document.getElementById('statusFilter').value;
       const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
       const sortOption = document.getElementById('sortSelect').value;
       const grid = document.getElementById('grid');
 
       grid.innerHTML = '';
 
+      // City Filter
       let filtered = selectedCity === 'ALL' 
         ? [...allHomes] 
         : allHomes.filter(h => h.city.toLowerCase() === selectedCity.toLowerCase());
 
+      // Status Filter
+      if (selectedStatus !== 'ALL') {
+        filtered = filtered.filter(h => (h.status || '').toLowerCase() === selectedStatus.toLowerCase());
+      }
+
+      // Search Filter
       if (searchQuery) {
         filtered = filtered.filter(h => 
           h.address.toLowerCase().includes(searchQuery) ||
@@ -147,6 +173,7 @@
         );
       }
 
+      // Sorting
       if (sortOption === 'price-asc') {
         filtered.sort((a, b) => a.price - b.price);
       } else if (sortOption === 'price-cuts') {
@@ -188,7 +215,7 @@
           `;
         }
 
-        // Status Badge Logic (Pending, Contingent, Coming Soon, New)
+        // Status Badge Logic
         let statusBadge = '';
         const statusText = (home.status || '').toLowerCase();
 
@@ -206,11 +233,11 @@
               <span>Contingent</span>
             </div>
           `;
-        } else if (statusText.includes('coming soon')) {
+        } else if (statusText.includes('pre-market') || statusText.includes('coming soon')) {
           statusBadge = `
             <div class="absolute top-3 right-3 z-10 inline-flex items-center gap-1 bg-indigo-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
               <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-              <span>Coming Soon</span>
+              <span>Pre-Market</span>
             </div>
           `;
         } else if (home.days_on_market !== undefined && home.days_on_market <= 10) {
@@ -295,6 +322,7 @@
     function resetFilters() {
       document.getElementById('searchInput').value = '';
       document.getElementById('cityFilter').value = 'Plymouth Meeting';
+      document.getElementById('statusFilter').value = 'ALL';
       document.getElementById('sortSelect').value = 'price-asc';
       filterListings();
     }
