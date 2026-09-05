@@ -68,8 +68,7 @@ def load_previous_listings():
                             "price": item.get('price', 0),
                             "original_price": item.get('original_price', item.get('price', 0)),
                             "price_change": item.get('price_change', 0),
-                            "image": item.get('image', ''),
-                            "first_seen": item.get('first_seen', item.get('date_seen', datetime.now().strftime('%Y-%m-%d')))
+                            "image": item.get('image', '')
                         }
         except Exception as e:
             print(f"Notice: Could not load previous listings for price tracking ({e})")
@@ -136,9 +135,6 @@ def fetch_active_listings():
             prev_info = previous_listings.get(full_url, {})
             original_price = prev_info.get("original_price", current_price)
             price_change = current_price - original_price
-            
-            # Preserve the original date when this listing was first discovered
-            first_seen = prev_info.get("first_seen", today_str)
 
             price_changes_for_excel.append(price_change)
             original_prices_for_excel.append(original_price)
@@ -150,6 +146,9 @@ def fetch_active_listings():
             city = str(row.get('CITY', '')) if pd.notna(row.get('CITY')) else ''
             state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
             zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
+            
+            # Extract real Redfin Days on Market value
+            dom = int(row.get('DAYS ON MARKET', 999)) if pd.notna(row.get('DAYS ON MARKET')) else 999
 
             cached_img = prev_info.get("image", "")
             if not cached_img or "photo-1568605117036" in cached_img:
@@ -169,10 +168,10 @@ def fetch_active_listings():
                 "beds": beds,
                 "baths": baths,
                 "sqft": sqft,
+                "days_on_market": dom,
                 "image": image_url,
                 "url": full_url,
-                "date_seen": today_str,
-                "first_seen": first_seen
+                "date_seen": today_str
             })
 
         combined_df['ORIGINAL_PRICE'] = original_prices_for_excel
