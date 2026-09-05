@@ -12,7 +12,14 @@ COUNTIES = [
     {"name": "Bucks County, PA", "id": "2369", "type": 5}
 ]
 
-MAX_PRICE = 600000
+# Break $0 - $600k into smaller price brackets to bypass the Redfin 350 cap
+PRICE_BRACKETS = [
+    (0, 350000),
+    (350001, 450000),
+    (450001, 525000),
+    (525001, 600000)
+]
+
 MIN_BEDS = 3
 MIN_SQFT = 1500
 
@@ -71,9 +78,7 @@ def load_previous_listings():
     return previous_map
 
 def determine_status(raw_sale_type, source_endpoint):
-    """Categorize status based on sale type string and endpoint source."""
     st = str(raw_sale_type).lower().strip()
-    
     if "contingent" in st or "under contract" in st:
         return "Contingent"
     elif "pending" in st:
@@ -92,36 +97,35 @@ def fetch_active_listings():
     excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
     today_str = datetime.now().strftime('%Y-%m-%d')
 
-    # Status endpoints to query separately
-    # 1: Active/Contingent, 130: Pending/Contingent, 8201: Pre-Market/Active
     STATUS_ENDPOINTS = ["1", "130", "8201"]
 
+    # Loop through Counties -> Status Endpoints -> Price Brackets
     for county in COUNTIES:
         for status_code in STATUS_ENDPOINTS:
-            url = (
-                f"https://www.redfin.com/stingray/api/gis-csv?"
-                f"al=1&region_id={county['id']}&region_type={county['type']}"
-                f"&status={status_code}&sp=true&include_sash=true&uipt=1,2,3,4,5,6"
-                f"&max_price={MAX_PRICE}&num_beds={MIN_BEDS}&min_sqft={MIN_SQFT}"
-            )
-            
-            try:
-                res = requests.get(url, headers=headers, timeout=15)
-                if res.status_code == 200 and "SALE TYPE" in res.text:
-                    df = pd.read_csv(io.StringIO(res.text))
-                    
-                    if 'SQUARE FEET' in df.columns:
-                        df['SQFT_NUM'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
-                        df = df[(df['SQFT_NUM'] >= MIN_SQFT) | (df['SQFT_NUM'] == 0)]
+            for min_p, max_p in PRICE_BRACKETS:
+                url = (
+                    f"https://www.redfin.com/stingray/api/gis-csv?"
+                    f"al=1&region_id={county['id']}&region_type={county['type']}"
+                    f"&status={status_code}&sp=true&include_sash=true&uipt=1,2,3,4,5,6"
+                    f"&min_price={min_p}&max_price={max_p}&num_beds={MIN_BEDS}&min_sqft={MIN_SQFT}"
+                )
+                
+                try:
+                    res = requests.get(url, headers=headers, timeout=15)
+                    if res.status_code == 200 and "SALE TYPE" in res.text:
+                        df = pd.read_csv(io.StringIO(res.text))
+                        
+                        if 'SQUARE FEET' in df.columns:
+                            df['SQFT_NUM'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
+                            df = df[(df['SQFT_NUM'] >= MIN_SQFT) | (df['SQFT_NUM'] == 0)]
 
-                    if 'STATE OR PROVINCE' in df.columns:
-                        df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
-                    
-                    # Store source endpoint identifier to assist status classification
-                    df['SOURCE_ENDPOINT'] = status_code
-                    all_dfs.append(df)
-            except Exception as e:
-                print(f"Error fetching {county['name']} (status={status_code}): {e}")
+                        if 'STATE OR PROVINCE' in df.columns:
+                            df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
+                        
+                        df['SOURCE_ENDPOINT'] = status_code
+                        all_dfs.append(df)
+                except Exception as e:
+                    print(f"Error fetching {county['name']} ({min_p}-{max_p}, status={status_code}): {e}")
 
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
@@ -129,7 +133,7 @@ def fetch_active_listings():
         url_col = [c for c in combined_df.columns if "URL" in c]
         url_col_name = url_col[0] if url_col else combined_df.columns[0]
         
-        # Deduplicate across all endpoints using the unique listing URL
+        # Deduplicate results collected across price chunks and endpoints
         combined_df = combined_df.drop_duplicates(subset=[url_col_name], keep='first')
 
         if 'CITY' in combined_df.columns:
@@ -141,7 +145,7 @@ def fetch_active_listings():
         price_changes_for_excel = []
         original_prices_for_excel = []
 
-        print("Processing unique listings across endpoints...")
+        print("Processing unique listings across chunks...")
         for _, row in combined_df.iterrows():
             url_path = str(row.get(url_col_name, ''))
             full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
@@ -165,7 +169,6 @@ def fetch_active_listings():
             
             dom = int(row.get('DAYS ON MARKET', 999)) if pd.notna(row.get('DAYS ON MARKET')) else 999
             
-            # Determine actual status using raw SALE TYPE + endpoint identifier
             raw_sale_type = row.get('SALE TYPE', 'Active Listing')
             endpoint_source = row.get('SOURCE_ENDPOINT', '1')
             calculated_status = determine_status(raw_sale_type, endpoint_source)
@@ -203,14 +206,14 @@ def fetch_active_listings():
             combined_df = combined_df.sort_values(by=['IS_PLYMOUTH', 'PRICE'], ascending=[False, True]).drop(columns=['IS_PLYMOUTH'])
 
         cols_to_drop = [c for c in combined_df.columns if c.strip().upper() in [x.upper() for x in EXCLUDE_COLUMNS]]
-        excel_df = combined_df.drop(columns=cols_to_drop + ['SOURCE_ENDPOINT'], errors='ignore')
+        excel_df = combined_df.drop(columns=cols_to_drop + ['SOURCE_ENDPOINT', 'SQFT_NUM'], errors='ignore')
 
         excel_df.to_excel('homes.xlsx', index=False)
 
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully deduplicated and saved {len(combined_df)} unique listings!")
+        print(f"Successfully processed and saved {len(combined_df)} total listings across Montgomery and Bucks counties!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
