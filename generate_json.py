@@ -2,24 +2,45 @@ import io
 import json
 import os
 import random
+import time
 import requests
 import pandas as pd
 from datetime import datetime
 
-# Redfin Region IDs for Montgomery County & Bucks County, PA
-COUNTIES = [
-    {"name": "Montgomery County, PA", "id": "2406", "type": 5},
-    {"name": "Bucks County, PA", "id": "2369", "type": 5}
+# Exact target locations mapping region IDs and zip codes
+TARGET_REGIONS = [
+    {"name": "Audubon, PA", "id": "21312", "type": 6},
+    {"name": "Bensalem, PA", "id": "35944", "type": 6},
+    {"name": "Blue Bell, PA", "id": "21540", "type": 6},
+    {"name": "Chalfont, PA", "id": "3254", "type": 6},
+    {"name": "Collegeville, PA", "id": "3931", "type": 6},
+    {"name": "Colmar, PA (18915)", "id": "18915", "type": 2},
+    {"name": "Conshohocken, PA", "id": "4105", "type": 6},
+    {"name": "Doylestown, PA", "id": "5096", "type": 6},
+    {"name": "Eagleville, PA", "id": "22400", "type": 6},
+    {"name": "East Norristown, PA", "id": "22472", "type": 6},
+    {"name": "Flourtown, PA", "id": "22809", "type": 6},
+    {"name": "Harleysville, PA", "id": "23231", "type": 6},
+    {"name": "Hatfield, PA", "id": "8464", "type": 6},
+    {"name": "Horsham, PA", "id": "23415", "type": 6},
+    {"name": "King of Prussia, PA", "id": "23712", "type": 6},
+    {"name": "Lafayette Hill, PA (19444)", "id": "19444", "type": 2},
+    {"name": "Lansdale, PA", "id": "10559", "type": 6},
+    {"name": "Limerick, PA (19468)", "id": "19468", "type": 2},
+    {"name": "Limerick, PA (19464)", "id": "19464", "type": 2},
+    {"name": "Montgomeryville, PA", "id": "24516", "type": 6},
+    {"name": "Norristown, PA", "id": "14143", "type": 6},
+    {"name": "North Wales / Plymouth Meeting, PA", "id": "14374", "type": 6},
+    {"name": "Pottstown, PA", "id": "16032", "type": 6},
+    {"name": "Royersford, PA", "id": "17058", "type": 6},
+    {"name": "Skippack, PA", "id": "25928", "type": 6},
+    {"name": "Souderton, PA", "id": "18344", "type": 6},
+    {"name": "Willow Grove, PA", "id": "26781", "type": 6},
+    {"name": "Worcester, PA (19490)", "id": "19490", "type": 2},
+    {"name": "Worcester, PA (19446)", "id": "19446", "type": 2}
 ]
 
-# Break $0 - $600k into smaller price brackets to bypass the Redfin 350 cap
-PRICE_BRACKETS = [
-    (0, 350000),
-    (350001, 450000),
-    (450001, 525000),
-    (525001, 600000)
-]
-
+MAX_PRICE = 600000
 MIN_BEDS = 3
 MIN_SQFT = 1500
 
@@ -39,23 +60,6 @@ EXCLUDE_COLUMNS = [
     'LONGITUDE', 
     'INTERESTED', 
     'FAVORITE'
-]
-
-EXCLUDED_CITIES = [
-    "Abington", "Ardmore", "Bala Cynwyd", "Barto", "Boyertown", "Bristol", 
-    "Bryn Mawr", "Cheltenham", "Coopersburg", "Crydon", "Croydon", "D1jpdy Silverdale", 
-    "Silverdale", "Dresher", "Desher", "Dublin", "East Greenville", "Easton", 
-    "Elkins Park", "Erdenheim", "Fairless Hills", "Feasterville Trevose", "Feasterville", 
-    "Trevose", "Fountainville", "Furlong", "Gilbertsville", "Glenside", "Green Lane", 
-    "Hatboro", "Huntingdon Valley", "Huntington valley", "Jamison", "Jenkintown", 
-    "Kintnersville", "Lamott", "Langhorne", "Laverock", "Levittown", "Line Lexington", 
-    "Melrose Park", "Mont Clare", "Morrisville", "morrisville", "Narberth", "New Britain", 
-    "New Hope", "Newtown", "Ottsville", "Penn Wynne", "penn Wynne", "Pennsburg", 
-    "Pennsburng", "Perkasie", "Perkaise", "Perkiomenville", "Philadelphia", "Quakertown", 
-    "Red Hill", "Roslyn", "Rydal", "Sanatoga", "Schwenksville", "Sellersville", 
-    "Southampton", "Springtown", "Telford", "Trappe", "Trapper", "Warminster", 
-    "Warmister", "Warmister Township", "Warrington", "Warwick", "Wyncote", "wyncote", 
-    "Wyndmoor", "wyndmoor", "Yardley", "yardley"
 ]
 
 def load_previous_listings():
@@ -79,6 +83,7 @@ def load_previous_listings():
 
 def determine_status(raw_sale_type, source_endpoint):
     st = str(raw_sale_type).lower().strip()
+    
     if "contingent" in st or "under contract" in st:
         return "Contingent"
     elif "pending" in st:
@@ -94,38 +99,44 @@ def fetch_active_listings():
     
     previous_listings = load_previous_listings()
     all_dfs = []
-    excluded_cities_set = {c.strip().upper() for c in EXCLUDED_CITIES}
     today_str = datetime.now().strftime('%Y-%m-%d')
 
-    STATUS_ENDPOINTS = ["1", "130", "8201"]
+    # The 3 specific status endpoints
+    STATUS_ENDPOINTS = [
+        {"code": "1", "params": "status=1&sp=true&include_sash=true"},
+        {"code": "130", "params": "status=130&include_sash=true"},
+        {"code": "8201", "params": "status=8201&sp=true&include_sash=true"}
+    ]
 
-    # Loop through Counties -> Status Endpoints -> Price Brackets
-    for county in COUNTIES:
-        for status_code in STATUS_ENDPOINTS:
-            for min_p, max_p in PRICE_BRACKETS:
-                url = (
-                    f"https://www.redfin.com/stingray/api/gis-csv?"
-                    f"al=1&region_id={county['id']}&region_type={county['type']}"
-                    f"&status={status_code}&sp=true&include_sash=true&uipt=1,2,3,4,5,6"
-                    f"&min_price={min_p}&max_price={max_p}&num_beds={MIN_BEDS}&min_sqft={MIN_SQFT}"
-                )
-                
-                try:
-                    res = requests.get(url, headers=headers, timeout=15)
-                    if res.status_code == 200 and "SALE TYPE" in res.text:
-                        df = pd.read_csv(io.StringIO(res.text))
-                        
-                        if 'SQUARE FEET' in df.columns:
-                            df['SQFT_NUM'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
-                            df = df[(df['SQFT_NUM'] >= MIN_SQFT) | (df['SQFT_NUM'] == 0)]
+    print("Fetching data across all 28 target locations...")
+    for region in TARGET_REGIONS:
+        for ep in STATUS_ENDPOINTS:
+            url = (
+                f"https://www.redfin.com/stingray/api/gis-csv?"
+                f"al=1&region_id={region['id']}&region_type={region['type']}"
+                f"&{ep['params']}&uipt=1,2,3,4,5,6"
+                f"&max_price={MAX_PRICE}&num_beds={MIN_BEDS}&min_sqft={MIN_SQFT}"
+            )
+            
+            try:
+                res = requests.get(url, headers=headers, timeout=15)
+                if res.status_code == 200 and "SALE TYPE" in res.text:
+                    df = pd.read_csv(io.StringIO(res.text))
+                    
+                    if 'SQUARE FEET' in df.columns:
+                        df['SQFT_NUM'] = pd.to_numeric(df['SQUARE FEET'], errors='coerce').fillna(0)
+                        df = df[(df['SQFT_NUM'] >= MIN_SQFT) | (df['SQFT_NUM'] == 0)]
 
-                        if 'STATE OR PROVINCE' in df.columns:
-                            df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
-                        
-                        df['SOURCE_ENDPOINT'] = status_code
-                        all_dfs.append(df)
-                except Exception as e:
-                    print(f"Error fetching {county['name']} ({min_p}-{max_p}, status={status_code}): {e}")
+                    if 'STATE OR PROVINCE' in df.columns:
+                        df = df[df['STATE OR PROVINCE'].astype(str).str.strip().str.upper() == 'PA']
+                    
+                    df['SOURCE_ENDPOINT'] = ep['code']
+                    all_dfs.append(df)
+            except Exception as e:
+                print(f"Error fetching {region['name']} ({ep['code']}): {e}")
+            
+            # Short sleep delay to avoid hammering the endpoint
+            time.sleep(0.3)
 
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
@@ -133,19 +144,14 @@ def fetch_active_listings():
         url_col = [c for c in combined_df.columns if "URL" in c]
         url_col_name = url_col[0] if url_col else combined_df.columns[0]
         
-        # Deduplicate results collected across price chunks and endpoints
+        # Deduplicate using the unique property URL
         combined_df = combined_df.drop_duplicates(subset=[url_col_name], keep='first')
-
-        if 'CITY' in combined_df.columns:
-            combined_df = combined_df[
-                ~combined_df['CITY'].astype(str).str.strip().str.upper().isin(excluded_cities_set)
-            ]
 
         active_homes = []
         price_changes_for_excel = []
         original_prices_for_excel = []
 
-        print("Processing unique listings across chunks...")
+        print(f"Deduplicating and parsing {len(combined_df)} unique listings...")
         for _, row in combined_df.iterrows():
             url_path = str(row.get(url_col_name, ''))
             full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
@@ -213,7 +219,7 @@ def fetch_active_listings():
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully processed and saved {len(combined_df)} total listings across Montgomery and Bucks counties!")
+        print(f"Successfully processed and saved {len(combined_df)} unique listings!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
