@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PA Home Finder | Active & Pending Listings</title>
+  <title>PA Home Finder | Comprehensive Listings</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -49,15 +49,14 @@
             class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
         </div>
 
-        <!-- City Filter Dropdown -->
+        <!-- Location Dropdown Filter -->
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="map-pin" class="w-4 h-4"></i>
           </div>
           <select id="cityFilter" onchange="filterListings()" 
             class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition">
-            <option value="Plymouth Meeting" selected>Plymouth Meeting (Default)</option>
-            <option value="ALL">All Included Cities</option>
+            <option value="ALL" selected>All Locations</option>
           </select>
           <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="chevron-down" class="w-4 h-4"></i>
@@ -72,10 +71,12 @@
           <select id="statusFilter" onchange="filterListings()" 
             class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition">
             <option value="ALL" selected>All Statuses</option>
+            <option value="NEW">New (≤ 10 Days)</option>
             <option value="Active">Active</option>
             <option value="Pending">Pending</option>
             <option value="Contingent">Contingent</option>
             <option value="Pre-Market">Pre-Market / Coming Soon</option>
+            <option value="New Construction">New Construction</option>
           </select>
           <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="chevron-down" class="w-4 h-4"></i>
@@ -134,15 +135,11 @@
       const dropdown = document.getElementById('cityFilter');
       const cities = [...new Set(allHomes.map(h => h.city).filter(c => c && c.trim() !== ''))].sort();
       
-      dropdown.innerHTML = `<option value="Plymouth Meeting">Plymouth Meeting</option><option value="ALL">All Included Cities</option>`;
+      dropdown.innerHTML = `<option value="ALL" selected>All Locations</option>`;
       
       cities.forEach(city => {
-        if (city.toLowerCase() !== "plymouth meeting") {
-          dropdown.innerHTML += `<option value="${city}">${city}</option>`;
-        }
+        dropdown.innerHTML += `<option value="${city}">${city}</option>`;
       });
-
-      dropdown.value = "Plymouth Meeting";
     }
 
     function filterListings() {
@@ -154,14 +151,18 @@
 
       grid.innerHTML = '';
 
-      // City Filter
+      // Location Filter
       let filtered = selectedCity === 'ALL' 
         ? [...allHomes] 
         : allHomes.filter(h => h.city.toLowerCase() === selectedCity.toLowerCase());
 
       // Status Filter
       if (selectedStatus !== 'ALL') {
-        filtered = filtered.filter(h => (h.status || '').toLowerCase() === selectedStatus.toLowerCase());
+        if (selectedStatus === 'NEW') {
+          filtered = filtered.filter(h => h.days_on_market !== undefined && h.days_on_market <= 10);
+        } else {
+          filtered = filtered.filter(h => (h.status || '').toLowerCase() === selectedStatus.toLowerCase());
+        }
       }
 
       // Search Filter
@@ -219,7 +220,14 @@
         let statusBadge = '';
         const statusText = (home.status || '').toLowerCase();
 
-        if (statusText.includes('pending')) {
+        if (statusText.includes('new construction')) {
+          statusBadge = `
+            <div class="absolute top-3 right-3 z-10 inline-flex items-center gap-1 bg-teal-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
+              <i data-lucide="hammer" class="w-3.5 h-3.5"></i>
+              <span>New Construction</span>
+            </div>
+          `;
+        } else if (statusText.includes('pending')) {
           statusBadge = `
             <div class="absolute top-3 right-3 z-10 inline-flex items-center gap-1 bg-amber-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
               <i data-lucide="clock" class="w-3.5 h-3.5"></i>
@@ -321,7 +329,7 @@
 
     function resetFilters() {
       document.getElementById('searchInput').value = '';
-      document.getElementById('cityFilter').value = 'Plymouth Meeting';
+      document.getElementById('cityFilter').value = 'ALL';
       document.getElementById('statusFilter').value = 'ALL';
       document.getElementById('sortSelect').value = 'price-asc';
       filterListings();
