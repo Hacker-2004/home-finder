@@ -7,7 +7,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-# Exact target locations mapping region IDs and zip codes
+# Target locations mapping provided codes (Type 6 = City/Place, Type 2 = Zip Code)
 TARGET_REGIONS = [
     {"name": "Audubon, PA", "id": "21312", "type": 6},
     {"name": "Bensalem, PA", "id": "35944", "type": 6},
@@ -81,10 +81,14 @@ def load_previous_listings():
             print(f"Notice: Could not load previous listings ({e})")
     return previous_map
 
-def determine_status(raw_sale_type, source_endpoint):
+def determine_status(raw_sale_type, source_endpoint, year_built):
     st = str(raw_sale_type).lower().strip()
+    current_year = datetime.now().year
     
-    if "contingent" in st or "under contract" in st:
+    # Categorize status priority
+    if "new construction" in st or (year_built and year_built >= current_year - 1):
+        return "New Construction"
+    elif "contingent" in st or "under contract" in st:
         return "Contingent"
     elif "pending" in st:
         return "Pending"
@@ -101,14 +105,14 @@ def fetch_active_listings():
     all_dfs = []
     today_str = datetime.now().strftime('%Y-%m-%d')
 
-    # The 3 specific status endpoints
+    # The 3 specific endpoints you verified
     STATUS_ENDPOINTS = [
         {"code": "1", "params": "status=1&sp=true&include_sash=true"},
         {"code": "130", "params": "status=130&include_sash=true"},
         {"code": "8201", "params": "status=8201&sp=true&include_sash=true"}
     ]
 
-    print("Fetching data across all 28 target locations...")
+    print("Fetching listings across all 28 target locations...")
     for region in TARGET_REGIONS:
         for ep in STATUS_ENDPOINTS:
             url = (
@@ -135,8 +139,8 @@ def fetch_active_listings():
             except Exception as e:
                 print(f"Error fetching {region['name']} ({ep['code']}): {e}")
             
-            # Short sleep delay to avoid hammering the endpoint
-            time.sleep(0.3)
+            # Short pause to prevent rate-limiting
+            time.sleep(0.2)
 
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
@@ -144,14 +148,14 @@ def fetch_active_listings():
         url_col = [c for c in combined_df.columns if "URL" in c]
         url_col_name = url_col[0] if url_col else combined_df.columns[0]
         
-        # Deduplicate using the unique property URL
+        # Deduplicate using unique Redfin URL
         combined_df = combined_df.drop_duplicates(subset=[url_col_name], keep='first')
 
         active_homes = []
         price_changes_for_excel = []
         original_prices_for_excel = []
 
-        print(f"Deduplicating and parsing {len(combined_df)} unique listings...")
+        print(f"Deduplicating and processing {len(combined_df)} unique listings...")
         for _, row in combined_df.iterrows():
             url_path = str(row.get(url_col_name, ''))
             full_url = url_path if url_path.startswith("http") else f"https://www.redfin.com{url_path}"
@@ -172,12 +176,13 @@ def fetch_active_listings():
             city = str(row.get('CITY', '')) if pd.notna(row.get('CITY')) else ''
             state = str(row.get('STATE OR PROVINCE', 'PA')) if pd.notna(row.get('STATE OR PROVINCE')) else 'PA'
             zip_code = str(row.get('ZIP OR POSTAL CODE', '')) if pd.notna(row.get('ZIP OR POSTAL CODE')) else ''
+            year_built = int(row.get('YEAR BUILT', 0)) if pd.notna(row.get('YEAR BUILT')) else 0
             
             dom = int(row.get('DAYS ON MARKET', 999)) if pd.notna(row.get('DAYS ON MARKET')) else 999
             
             raw_sale_type = row.get('SALE TYPE', 'Active Listing')
             endpoint_source = row.get('SOURCE_ENDPOINT', '1')
-            calculated_status = determine_status(raw_sale_type, endpoint_source)
+            calculated_status = determine_status(raw_sale_type, endpoint_source, year_built)
 
             cached_img = prev_info.get("image", "")
             if not cached_img or "photo-1568605117036" in cached_img:
@@ -197,6 +202,7 @@ def fetch_active_listings():
                 "beds": beds,
                 "baths": baths,
                 "sqft": sqft,
+                "year_built": year_built,
                 "days_on_market": dom,
                 "status": calculated_status,
                 "image": image_url,
@@ -219,7 +225,7 @@ def fetch_active_listings():
         with open('listings.json', 'w') as f:
             json.dump(active_homes, f, indent=2)
 
-        print(f"Successfully processed and saved {len(combined_df)} unique listings!")
+        print(f"Successfully saved {len(combined_df)} unique listings!")
     else:
         with open('listings.json', 'w') as f:
             json.dump([], f)
