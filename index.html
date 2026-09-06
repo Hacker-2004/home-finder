@@ -40,12 +40,12 @@
     <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 mb-8 transition-all">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         
-        <!-- Search Input -->
+        <!-- Search Input with Debounce -->
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="search" class="w-4 h-4"></i>
           </div>
-          <input type="text" id="searchInput" oninput="filterListings()" placeholder="Search address, zip..." 
+          <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="Search address, zip..." 
             class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
         </div>
 
@@ -54,7 +54,7 @@
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="map-pin" class="w-4 h-4"></i>
           </div>
-          <select id="cityFilter" onchange="filterListings()" 
+          <select id="cityFilter" onchange="resetAndFilter()" 
             class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition">
             <option value="ALL" selected>All Locations</option>
           </select>
@@ -68,7 +68,7 @@
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="tag" class="w-4 h-4"></i>
           </div>
-          <select id="statusFilter" onchange="filterListings()" 
+          <select id="statusFilter" onchange="resetAndFilter()" 
             class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition">
             <option value="ALL" selected>All Statuses</option>
             <option value="NEW">New (≤ 10 Days)</option>
@@ -88,7 +88,7 @@
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="arrow-down-up" class="w-4 h-4"></i>
           </div>
-          <select id="sortSelect" onchange="filterListings()" 
+          <select id="sortSelect" onchange="resetAndFilter()" 
             class="w-full pl-10 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition">
             <option value="price-asc">Price: Low to High</option>
             <option value="price-cuts">Biggest Price Cuts First</option>
@@ -114,10 +114,16 @@
     <!-- Active Grid -->
     <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
+    <!-- Pagination Container -->
+    <div id="paginationControls" class="flex justify-center items-center gap-4 mt-10"></div>
+
   </main>
 
   <script>
     let allHomes = [];
+    let currentPage = 1;
+    const itemsPerPage = 24;
+    let debounceTimer;
 
     async function loadListings() {
       try {
@@ -140,6 +146,18 @@
       cities.forEach(city => {
         dropdown.innerHTML += `<option value="${city}">${city}</option>`;
       });
+    }
+
+    function handleSearchInput() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        resetAndFilter();
+      }, 250);
+    }
+
+    function resetAndFilter() {
+      currentPage = 1;
+      filterListings();
     }
 
     function filterListings() {
@@ -185,23 +203,31 @@
         filtered.sort((a, b) => b.sqft - a.sqft);
       }
 
+      // Pagination Slice
+      const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const paginatedHomes = filtered.slice(startIndex, startIndex + itemsPerPage);
+
       document.getElementById('count').innerHTML = `
         <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-        ${filtered.length} ${filtered.length === 1 ? 'Home' : 'Homes'}
+        ${filtered.length} ${filtered.length === 1 ? 'Home' : 'Homes'} (Page ${currentPage} of ${totalPages})
       `;
 
-      if (filtered.length === 0) {
+      if (paginatedHomes.length === 0) {
         grid.innerHTML = `
           <div class="col-span-full text-center bg-white p-12 rounded-2xl shadow-sm border border-slate-200 text-slate-500">
             <i data-lucide="search-x" class="w-10 h-10 text-slate-400 mx-auto mb-3"></i>
             <h3 class="text-base font-semibold text-slate-800 mb-1">No Matching Properties</h3>
             <p class="text-sm text-slate-500">No properties match your exact filters right now.</p>
           </div>`;
+        renderPaginationControls(1);
         lucide.createIcons();
         return;
       }
 
-      filtered.forEach(home => {
+      paginatedHomes.forEach(home => {
         const pricePerSqft = home.sqft > 0 ? Math.round(home.price / home.sqft) : 0;
         const change = home.price_change || 0;
 
@@ -268,6 +294,7 @@
                 ${statusBadge}
                 <img src="${home.image || fallbackImg}" 
                      alt="${home.address}" 
+                     loading="lazy"
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                      onerror="this.src='${fallbackImg}'">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
@@ -324,7 +351,34 @@
         grid.innerHTML += card;
       });
 
+      renderPaginationControls(totalPages);
       lucide.createIcons();
+    }
+
+    function renderPaginationControls(totalPages) {
+      const controls = document.getElementById('paginationControls');
+      if (totalPages <= 1) {
+        controls.innerHTML = '';
+        return;
+      }
+
+      controls.innerHTML = `
+        <button onclick="changePage(-1)" ${currentPage === 1 ? 'disabled' : ''} 
+          class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl font-medium text-sm shadow-sm hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
+          Previous
+        </button>
+        <span class="text-sm font-semibold text-slate-600">Page ${currentPage} of ${totalPages}</span>
+        <button onclick="changePage(1)" ${currentPage >= totalPages ? 'disabled' : ''} 
+          class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl font-medium text-sm shadow-sm hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
+          Next
+        </button>
+      `;
+    }
+
+    function changePage(direction) {
+      currentPage += direction;
+      filterListings();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function resetFilters() {
@@ -332,7 +386,7 @@
       document.getElementById('cityFilter').value = 'ALL';
       document.getElementById('statusFilter').value = 'ALL';
       document.getElementById('sortSelect').value = 'price-asc';
-      filterListings();
+      resetAndFilter();
     }
 
     loadListings();
