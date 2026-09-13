@@ -10,7 +10,6 @@ from datetime import datetime
 # Target locations mapping provided codes (Type 6 = City/Place, Type 2 = Zip Code)
 TARGET_REGIONS = [
     {"name": "Audubon, PA", "id": "21312", "type": 6},
-    {"name": "Bensalem, PA", "id": "35944", "type": 6},
     {"name": "Blue Bell, PA", "id": "21540", "type": 6},
     {"name": "Chalfont, PA", "id": "3254", "type": 6},
     {"name": "Collegeville, PA", "id": "3931", "type": 6},
@@ -26,13 +25,9 @@ TARGET_REGIONS = [
     {"name": "King of Prussia, PA", "id": "23712", "type": 6},
     {"name": "Lafayette Hill, PA (19444)", "id": "19444", "type": 2},
     {"name": "Lansdale, PA", "id": "10559", "type": 6},
-    {"name": "Limerick, PA (19468)", "id": "19468", "type": 2},
-    {"name": "Limerick, PA (19464)", "id": "19464", "type": 2},
     {"name": "Montgomeryville, PA", "id": "24516", "type": 6},
     {"name": "Norristown, PA", "id": "14143", "type": 6},
     {"name": "North Wales / Plymouth Meeting, PA", "id": "14374", "type": 6},
-    {"name": "Pottstown, PA", "id": "16032", "type": 6},
-    {"name": "Royersford, PA", "id": "17058", "type": 6},
     {"name": "Skippack, PA", "id": "25928", "type": 6},
     {"name": "Souderton, PA", "id": "18344", "type": 6},
     {"name": "Willow Grove, PA", "id": "26781", "type": 6},
